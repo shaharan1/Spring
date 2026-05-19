@@ -1,9 +1,7 @@
 package com.emranhss.ModernHospitalSystemManagement.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "policestations")
@@ -11,7 +9,10 @@ public class policeStation {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column (length = 50)
     private String name;
 
 
