@@ -27,4 +27,10 @@ public class PoliceStationService {
         return stationRepository.findById(id);
     }
 
+    public void delete(long id){
+
+        stationRepository.deleteById(id);
+    }
+
+
 }
