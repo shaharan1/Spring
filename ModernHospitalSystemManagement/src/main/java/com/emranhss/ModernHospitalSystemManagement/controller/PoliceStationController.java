@@ -23,8 +23,9 @@ public class PoliceStationController {
        return new ResponseEntity<>(savedpoliceStation, HttpStatus.CREATED);
     }
     @GetMapping
-    public List<policeStation> getAll() {
-        return stationService.getAll();
+    public ResponseEntity<List<policeStation>>  getAll() {
+        List<policeStation> list=stationService.getAll();
+        return ResponseEntity.ok(list);
     }
 
 
