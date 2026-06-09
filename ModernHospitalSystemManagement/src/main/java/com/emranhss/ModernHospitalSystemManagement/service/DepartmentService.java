@@ -1,7 +1,6 @@
 package com.emranhss.ModernHospitalSystemManagement.service;
 
 import com.emranhss.ModernHospitalSystemManagement.entity.Department;
-import com.emranhss.ModernHospitalSystemManagement.entity.policeStation;
 import com.emranhss.ModernHospitalSystemManagement.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

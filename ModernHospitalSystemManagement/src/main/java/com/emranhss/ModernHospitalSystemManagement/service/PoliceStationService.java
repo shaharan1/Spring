@@ -1,6 +1,6 @@
 package com.emranhss.ModernHospitalSystemManagement.service;
 
-import com.emranhss.ModernHospitalSystemManagement.entity.policeStation;
+import com.emranhss.ModernHospitalSystemManagement.entity.PoliceStation;
 import com.emranhss.ModernHospitalSystemManagement.repository.PoliceStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,15 @@ public class PoliceStationService {
     @Autowired
     private PoliceStationRepository stationRepository;
 
-    public List <policeStation> getAll(){
+    public List <PoliceStation> getAll(){
 
         return stationRepository.findAll();
     }
 
-    public policeStation SaveORUpdate(policeStation p){
+    public PoliceStation SaveORUpdate(PoliceStation p){
        return stationRepository.save(p);
     }
-    public Optional<policeStation> getByIdPoliceStation(long id){
+    public Optional<PoliceStation> getByIdPoliceStation(long id){
 
         return stationRepository.findById(id);
     }

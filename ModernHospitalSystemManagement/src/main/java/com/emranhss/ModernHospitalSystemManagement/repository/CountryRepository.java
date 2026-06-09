@@ -1,10 +1,10 @@
 package com.emranhss.ModernHospitalSystemManagement.repository;
 
-import com.emranhss.ModernHospitalSystemManagement.entity.PoliceStation;
+
+import com.emranhss.ModernHospitalSystemManagement.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PoliceStationRepository extends JpaRepository<PoliceStation,Long> {
-
+public interface CountryRepository extends JpaRepository <Country,Long>{
 }

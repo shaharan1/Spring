@@ -1,6 +1,6 @@
 package com.emranhss.ModernHospitalSystemManagement.controller;
 
-import com.emranhss.ModernHospitalSystemManagement.entity.policeStation;
+import com.emranhss.ModernHospitalSystemManagement.entity.PoliceStation;
 import com.emranhss.ModernHospitalSystemManagement.service.PoliceStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ public class PoliceStationController {
     private PoliceStationService stationService;
 
     @PostMapping
-    public ResponseEntity<policeStation> save(@RequestBody policeStation p){
+    public ResponseEntity<PoliceStation> save(@RequestBody PoliceStation p){
 
-       policeStation savedpoliceStation= stationService.SaveORUpdate(p);
+       PoliceStation savedpoliceStation= stationService.SaveORUpdate(p);
        return new ResponseEntity<>(savedpoliceStation, HttpStatus.CREATED);
     }
     @GetMapping
-    public ResponseEntity<List<policeStation>>  getAll() {
-        List<policeStation> list=stationService.getAll();
+    public ResponseEntity<List<PoliceStation>>  getAll() {
+        List<PoliceStation> list=stationService.getAll();
         return ResponseEntity.ok(list);
     }
 
