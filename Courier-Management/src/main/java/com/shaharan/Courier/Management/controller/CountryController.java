@@ -38,4 +38,10 @@ public class CountryController {
         return ResponseEntity.ok(c);
     }
 
+    public ResponseEntity<String> delete (@PathVariable Long id){
+
+        countryService.delete(id);
+        return ResponseEntity.ok("Country Deleted Successfully");
+    }
+
 }
