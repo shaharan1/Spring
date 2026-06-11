@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,15 +19,19 @@ public class CountryController {
     private CountryService countryService;
 
     @PostMapping
-    public ResponseEntity<Country> save (@RequestBody Country c){
+    public ResponseEntity<Country> save(@RequestBody Country c) {
 
-      Country savedCountry= countryService.save(c);
-      return new ResponseEntity<>(savedCountry, HttpStatus.CREATED);
+        Country savedCountry = countryService.save(c);
+        return new ResponseEntity<>(savedCountry, HttpStatus.CREATED);
     }
 
-public ResponseEntity<List<Country>> getAll(){
+    @GetMapping
+    public ResponseEntity<List<Country>> getAll() {
 
-        List<Country> list=countryService.findAll();
+        List<Country> list = countryService.findAll();
         return ResponseEntity.ok(list);
-}
+    }
+
+    public  ResponseEntity<>
+
 }
