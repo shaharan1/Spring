@@ -28,5 +28,9 @@ public class CountryController {
       return new ResponseEntity<>(savedCountry, HttpStatus.CREATED);
     }
 
-public ResponseEntity<List<Country>>
+public ResponseEntity<List<Country>> getAll(){
+
+        List<Country> list=countryService.findAll();
+        return ResponseEntity.ok(list);
+}
 }
