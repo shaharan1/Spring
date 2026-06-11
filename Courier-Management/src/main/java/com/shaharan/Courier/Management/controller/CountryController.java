@@ -34,7 +34,7 @@ public class CountryController {
     public  ResponseEntity<Country> findById (@PathVariable("id")Long id){
 
         Country c = countryService.getById(id)
-                .orElseThrow() -> new RuntimeException("Country Not Found with this ID");
+                .orElseThrow(() -> new RuntimeException("Country Not Found with this ID"));
         return ResponseEntity.ok(c);
     }
 
