@@ -31,7 +31,12 @@ public class CountryController {
         List<Country> list = countryService.findAll();
         return ResponseEntity.ok(list);
     }
+@GetMapping("{id}")
+    public  ResponseEntity<Country> findById (@PathVariable("id")Long id){
 
-    public  ResponseEntity<>
+        Country c = countryService.getById(id)
+                .orElseThrow() -> new RuntimeException("Country Not Found with this ID");
+        return ResponseEntity.ok(c);
+    }
 
 }
