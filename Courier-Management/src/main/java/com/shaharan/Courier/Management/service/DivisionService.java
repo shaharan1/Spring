@@ -1,6 +1,6 @@
 package com.shaharan.Courier.Management.service;
 
-import com.shaharan.Courier.Management.dto.DivisionDTO;
+import com.shaharan.Courier.Management.dto.response.DivisionResponseDTO;
 import com.shaharan.Courier.Management.entity.Division;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public interface DivisionService {
     Optional<Division> getById(Long id);
     void delete(Long id);
 
-List<DivisionDTO> getDivisionsByCountryId(Long countryId);
+List<DivisionResponseDTO> getDivisionsByCountryId(Long countryId);
 
-List<DivisionDTO> getDivisionsByCountryName(String countryName);
+List<DivisionResponseDTO> getDivisionsByCountryName(String countryName);
 }
