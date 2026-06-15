@@ -15,4 +15,6 @@ public interface DivisionRepository extends JpaRepository<Division,Long> {
 
     // Find all divisions by country name
     List<Division> findByCountryName(String countryName);
+
+    String countryName(String countryName);
 }

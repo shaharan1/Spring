@@ -1,6 +1,7 @@
 package com.shaharan.Courier.Management.serviceimp;
 
 
+import com.shaharan.Courier.Management.dto.DivisionDTO;
 import com.shaharan.Courier.Management.dto.mapper.DivisionMapper;
 import com.shaharan.Courier.Management.dto.response.DivisionResponseDTO;
 import com.shaharan.Courier.Management.entity.Country;
@@ -20,43 +21,38 @@ import java.util.stream.Collectors;
 public class DivisionServiceImp implements DivisionService {
 
 
-
-
     private final DivisionRepository divisionRepository;
 
     private final CountryRepository countryRepository;
 
     @Override
     public Division save(Division d) {
-        Long countryId = d.getCountry().getId();
-        Country c = countryRepository.findById(countryId)
-                .orElseThrow(()-> new RuntimeException("Country not found with this ID"));
 
+        Long countryId = d.getCountry().getId();
+        Country c= countryRepository.findById(countryId)
+                .orElseThrow(()-> new RuntimeException("Country not found with this ID"));
         d.setCountry(c);
         return divisionRepository.save(d);
     }
 
     @Override
     public List<Division> findAll() {
-        return divisionRepository.findAll();
+        return List.of();
     }
 
     @Override
     public Optional<Division> getById(Long id) {
-        return divisionRepository.findById(id);
+        return Optional.empty();
     }
 
     @Override
     public void delete(Long id) {
-divisionRepository.deleteById(id);
+
     }
 
     @Override
     public List<DivisionResponseDTO> getDivisionsByCountryId(Long countryId) {
-        return divisionRepository.findByCountryId(countryId)
-                .stream()
-                .map(DivisionMapper::toDTO)
-                .collect(Collectors.toList());
+        return List.of();
     }
 
     @Override
