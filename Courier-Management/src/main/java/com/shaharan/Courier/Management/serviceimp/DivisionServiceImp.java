@@ -1,7 +1,6 @@
 package com.shaharan.Courier.Management.serviceimp;
 
 
-import com.shaharan.Courier.Management.dto.DivisionDTO;
 import com.shaharan.Courier.Management.dto.mapper.DivisionMapper;
 import com.shaharan.Courier.Management.dto.response.DivisionResponseDTO;
 import com.shaharan.Courier.Management.entity.Country;
@@ -37,26 +36,40 @@ public class DivisionServiceImp implements DivisionService {
 
     @Override
     public List<Division> findAll() {
-        return List.of();
+        return divisionRepository.findAll();
     }
 
     @Override
     public Optional<Division> getById(Long id) {
-        return Optional.empty();
+        return divisionRepository.findById(id);
     }
 
     @Override
     public void delete(Long id) {
-
+divisionRepository.findById(id);
     }
 
     @Override
     public List<DivisionResponseDTO> getDivisionsByCountryId(Long countryId) {
-        return List.of();
+
+        List<Division> list=divisionRepository.findByCountryId(countryId);
+        return list.stream().map(DivisionMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<DivisionResponseDTO> getDivisionsByCountryName(String countryName) {
+    public List<Division> getDivisionsByCountryId(String countryId) {
         return List.of();
+    }
+//
+//    @Override
+//    public List<DivisionResponseDTO> getDivisionsByCountryId(Long countryId) {
+//
+//        List<Division>list=divisionRepository.findByCountryName(countryId);
+//        return list.stream().map(this::save).collect(Collectors.toList());
+//    }
+
+    @Override
+    public List<DivisionResponseDTO> getDivisionsByCountryName(String countryName) {
+        return divisionRepository.findByCountryName(countryName).stream().map(DivisionMapper::toDTO).collect(Collectors.toList());
     }
 }

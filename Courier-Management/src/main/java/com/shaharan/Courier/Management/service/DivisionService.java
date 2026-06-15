@@ -15,5 +15,7 @@ public interface DivisionService {
 
 List<DivisionResponseDTO> getDivisionsByCountryId(Long countryId);
 
-List<DivisionResponseDTO> getDivisionsByCountryName(String countryName);
+    List<Division> getDivisionsByCountryId(String countryId);
+
+    List<DivisionResponseDTO> getDivisionsByCountryName(String countryName);
 }
