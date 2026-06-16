@@ -19,7 +19,7 @@ public class District {
 
     private String name;
 
-    
+
     @ManyToOne
     @JoinColumn(name = "division_id")
     private Division division;
