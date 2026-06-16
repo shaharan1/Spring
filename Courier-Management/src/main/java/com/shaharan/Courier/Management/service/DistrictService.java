@@ -1,5 +1,6 @@
 package com.shaharan.Courier.Management.service;
 
+import com.shaharan.Courier.Management.dto.response.DistrictResponseDTO;
 import com.shaharan.Courier.Management.entity.District;
 
 import java.util.List;
@@ -14,5 +15,8 @@ public interface DistrictService {
     void delete (Long id);
 
 
-    
+    List<DistrictResponseDTO> findByDivisionId(Long divisionId);
+
+
+    List<DistrictResponseDTO> findByDivisionName(String divisionName);
 }
