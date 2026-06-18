@@ -17,8 +17,6 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
 
-
-
     private String description;
 
     @Column(length = 50)

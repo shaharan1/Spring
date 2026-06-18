@@ -1,7 +1,6 @@
 package com.emranhss.ModernHospitalSystemManagement.controller;
 
 import com.emranhss.ModernHospitalSystemManagement.entity.PoliceStation;
-import com.emranhss.ModernHospitalSystemManagement.service.PoliceStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
