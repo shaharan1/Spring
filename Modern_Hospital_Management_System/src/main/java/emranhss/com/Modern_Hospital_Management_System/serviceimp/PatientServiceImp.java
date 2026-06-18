@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,26 +34,37 @@ public class PatientServiceImp implements PatientService {
 
     @Override
     public PatientResponse getPatientById(Long id) {
-        return null;
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
+        return patientMapper.toResponse(patient);
     }
 
     @Override
     public PatientResponse getPatientByCode(String code) {
-        return null;
+        Patient patient = patientRepository.findByPatientCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with code: " + code));
+        return patientMapper.toResponse(patient);
     }
 
     @Override
     public List<PatientResponse> getAllPatients() {
-        return List.of();
+        return patientRepository.findAll().stream()
+                .map(patientMapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
     public PatientResponse updatePatient(Long id, PatientRequest request) {
-        return null;
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
+        patientMapper.updateEntityFromRequest(request, patient);
+        return patientMapper.toResponse(patientRepository.save(patient));
     }
 
     @Override
     public void deletePatient(Long id) {
-
+        Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
+        patientRepository.delete(patient);
     }
 }
