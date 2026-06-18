@@ -5,6 +5,7 @@ import emranhss.com.Modern_Hospital_Management_System.dto.mapper.PatientMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.PatientRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.PatientResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.Patient;
+import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
 import emranhss.com.Modern_Hospital_Management_System.repository.PatientRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.PatientService;
 import emranhss.com.Modern_Hospital_Management_System.util.PatientCodeGenerator;
