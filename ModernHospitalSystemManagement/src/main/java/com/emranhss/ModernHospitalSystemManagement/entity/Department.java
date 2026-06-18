@@ -15,10 +15,14 @@ public class Department {
 
    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+   private long id;
 
-   @Column(length = 50)
-   private String name;
+
+
+    private String description;
+
+    @Column(length = 50)
+    private String departmentName;
 
 
 }
