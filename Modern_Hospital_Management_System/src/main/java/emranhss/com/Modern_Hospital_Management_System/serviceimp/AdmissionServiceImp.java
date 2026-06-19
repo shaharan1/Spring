@@ -4,13 +4,16 @@ package emranhss.com.Modern_Hospital_Management_System.serviceimp;
 import emranhss.com.Modern_Hospital_Management_System.dto.mapper.AdmissionMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.AdmissionRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.AdmissionResponse;
-import emranhss.com.Modern_Hospital_Management_System.entity.Patient;
+import emranhss.com.Modern_Hospital_Management_System.entity.*;
+import emranhss.com.Modern_Hospital_Management_System.enums.BedStatus;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
 import emranhss.com.Modern_Hospital_Management_System.repository.*;
 import emranhss.com.Modern_Hospital_Management_System.service.AdmissionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +36,7 @@ public class AdmissionServiceImp implements AdmissionService {
         Doctor doctor = doctorRepository.findById(request.getDoctorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor records missing"));
 
-        Bed bed = bedRepository.findById(request.getBedId())
+        Bed bed = (Bed) bedRepository.findById(request.getBedId())
                 .orElseThrow(() -> new ResourceNotFoundException("Target bed item missing"));
 
         if (!bed.getStatus().equals(BedStatus.AVAILABLE)) {
