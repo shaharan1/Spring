@@ -1,10 +1,18 @@
 package emranhss.com.Modern_Hospital_Management_System.dto.mapper;
 
 
+import emranhss.com.Modern_Hospital_Management_System.dto.response.BedResponse;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.DepartmentResponse;
+import emranhss.com.Modern_Hospital_Management_System.dto.response.FacilityResponse;
+import emranhss.com.Modern_Hospital_Management_System.dto.response.WardResponse;
+import emranhss.com.Modern_Hospital_Management_System.entity.Bed;
 import emranhss.com.Modern_Hospital_Management_System.entity.Department;
+import emranhss.com.Modern_Hospital_Management_System.entity.Facility;
+import emranhss.com.Modern_Hospital_Management_System.entity.Ward;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class CoreInfrastructureMapper {
