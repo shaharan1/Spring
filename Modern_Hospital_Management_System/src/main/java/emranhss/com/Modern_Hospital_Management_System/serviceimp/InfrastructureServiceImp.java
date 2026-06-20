@@ -34,11 +34,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InfrastructureServiceImp implements InfrastructureService {
 
-
-
-
-
-
     private final DepartmentRepository departmentRepository;
     private final FacilityRepository facilityRepository;
     private final WardRepository wardRepository;

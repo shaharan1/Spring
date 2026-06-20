@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BedRepository extends JpaRepository<BedRepository, Long> {
+public interface BedRepository extends JpaRepository<Bed, Long> {
 
 
     List<Bed> findByStatus(BedStatus status);

@@ -31,6 +31,8 @@ public class PrescriptionServiceImp implements PrescriptionService {
     @Transactional
     // FIX: Changed return type from PrescriptionItemResponse to PrescriptionResponse
     public PrescriptionResponse createPrescription(PrescriptionRequest request) {
+
+
         Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + request.getAppointmentId()));
 
