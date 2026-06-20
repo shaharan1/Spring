@@ -1,11 +1,9 @@
 package emranhss.com.Modern_Hospital_Management_System.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data
@@ -14,8 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Doctor {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +39,16 @@ public class Doctor {
     private String registrationNumber;
 
     private Integer experienceYears;
-    private Double consultationFee;
-    private Double followUpFee;
+    private Double consultationFee; // Used as First Visit Rate
+    private Double followUpFee;     // Used as Second/Returning Visit Rate
     private String availableDays;
     private String dutyHours;
     private String chamber;
     private LocalDate joinDate;
     private String photo;
+
+    // Fixed Link: Connects doctor to a specific department room/wing
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
 }
