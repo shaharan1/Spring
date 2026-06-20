@@ -13,8 +13,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
 
 
-    Optional<Doctor> findByEmail(String email);
-    Optional<Doctor> findByPhone(String phone);
-    Optional<Doctor> findByRegistrationNumber(String registrationNumber);
+    // Automatically creates a MySQL query: SELECT * FROM doctors WHERE specialization = ?
     List<Doctor> findBySpecialization(String specialization);
 }
