@@ -1,6 +1,5 @@
 package emranhss.com.Modern_Hospital_Management_System.dto.mapper;
 
-
 import emranhss.com.Modern_Hospital_Management_System.dto.response.AppointmentResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.Appointment;
 import org.springframework.stereotype.Component;
@@ -8,19 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppointmentMapper {
 
-
-
     public AppointmentResponse toResponse(Appointment appointment) {
-        if (appointment == null) {
-            return null;
-        }
+        if (appointment == null) return null;
 
         AppointmentResponse response = new AppointmentResponse();
         response.setId(appointment.getId());
 
         if (appointment.getPatient() != null) {
             response.setPatientId(appointment.getPatient().getId());
-            response.setPatientName(appointment.getPatient().getFirstName() + " " + appointment.getPatient().getLastName());
+            response.setPatientName(appointment.getPatient().getFirstName());
             response.setPatientPhone(appointment.getPatient().getPhone());
         }
 
@@ -33,6 +28,10 @@ public class AppointmentMapper {
         response.setAppointmentDate(appointment.getAppointmentDate());
         response.setAppointmentTime(appointment.getAppointmentTime());
         response.setStatus(appointment.getStatus());
+        response.setFeeCharged(appointment.getFeeCharged());
+        response.setProblemDescription(appointment.getProblemDescription());
+        response.setPaymentMethod(appointment.getPaymentMethod());
+        response.setTransactionId(appointment.getTransactionId());
 
         return response;
     }
