@@ -1,4 +1,4 @@
-package emranhss.com.Modern_Hospital_Management_System.dto.request;
+package emranhss.com.Modern_Hospital_Management_System.dto.response;
 
 
 import lombok.AllArgsConstructor;
@@ -10,10 +10,10 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicineRequest {
+public class MedicineResponse {
 
 
-
+    private Long id;
 
     private String medicineName;
 
