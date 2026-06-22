@@ -68,8 +68,12 @@ public class InfrastructureServiceImp implements InfrastructureService {
     @Override
     @Transactional
     public BedResponse createBed(BedRequest request) {
+        if (request.getWardId() == null) {
+            throw new IllegalArgumentException("wardId is required to create a bed");
+        }
+
         Ward ward = wardRepository.findById(request.getWardId())
-                .orElseThrow(() -> new ResourceNotFoundException("Ward not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ward not found with id: " + request.getWardId()));
 
         Bed bed = new Bed();
         bed.setBedNumber(request.getBedNumber());

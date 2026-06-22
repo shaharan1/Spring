@@ -87,12 +87,12 @@ public class AppointmentServiceImp implements AppointmentService {
 
         // 4. Construct and Save Appointment Details
 
-        Doctor doctor = doctorRepository.findById(request.getDoctorId())
+        Doctor doctor1 = doctorRepository.findById(request.getDoctorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + request.getDoctorId()));
 
         // Check if the patient exists by phone number
         Optional<Patient> existingPatient = patientRepository.findByPhone(request.getPhone());
-        Patient patient;
+        Patient patient1;
         double chargeFee;
 
         if (existingPatient.isPresent()) {
@@ -161,7 +161,7 @@ public class AppointmentServiceImp implements AppointmentService {
     }
 
     @Override
->
+
     public AppointmentResponse cancelAppointment(Long id) {
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));

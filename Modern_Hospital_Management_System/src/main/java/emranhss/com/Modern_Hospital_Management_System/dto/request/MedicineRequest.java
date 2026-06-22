@@ -1,6 +1,5 @@
 package emranhss.com.Modern_Hospital_Management_System.dto.request;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MedicineRequest {
-
-
-
 
     private String medicineName;
 
@@ -35,7 +31,7 @@ public class MedicineRequest {
 
     private String instructions;
 
-    private boolean isActive;
+    private Boolean active;
 
     private Long prescriptionId;
 }

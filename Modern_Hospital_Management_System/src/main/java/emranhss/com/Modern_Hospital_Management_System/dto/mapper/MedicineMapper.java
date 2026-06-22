@@ -24,7 +24,7 @@ public class MedicineMapper {
         medicine.setQuantity(request.getQuantity());
         medicine.setStartDate(request.getStartDate());
         medicine.setInstructions(request.getInstructions());
-        medicine.setActive(request.isActive());
+        medicine.setActive(request.getActive());
         medicine.setPrescription(prescription);
         return medicine;
     }
@@ -40,7 +40,7 @@ public class MedicineMapper {
         medicine.setQuantity(request.getQuantity());
         medicine.setStartDate(request.getStartDate());
         medicine.setInstructions(request.getInstructions());
-        medicine.setActive(request.isActive());
+        medicine.setActive(request.getActive());
         medicine.setPrescription(prescription);
     }
 
