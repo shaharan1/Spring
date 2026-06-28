@@ -32,4 +32,6 @@ public class DoctorChargeResponse {
     private String patientName;
 
     private String admissionStatus;
+
+    private String billingStatus;
 }

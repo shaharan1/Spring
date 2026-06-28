@@ -1,6 +1,5 @@
 package emranhss.com.Modern_Hospital_Management_System.dto.mapper;
 
-
 import emranhss.com.Modern_Hospital_Management_System.dto.request.DoctorChargeRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.DoctorChargeResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.AdmittedPatient;
@@ -12,9 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class DoctorChargeMapper {
 
-
-
-
     public DoctorCharge toEntity(DoctorChargeRequest request, Doctor doctor,
                                  BedBooking bedBooking, AdmittedPatient admittedPatient) {
         DoctorCharge charge = new DoctorCharge();
@@ -24,6 +20,9 @@ public class DoctorChargeMapper {
         charge.setDoctor(doctor);
         charge.setBedBooking(bedBooking);
         charge.setAdmittedPatient(admittedPatient);
+
+        // Ensure new transactions always default to pending status
+        charge.setBillingStatus("PENDING");
         return charge;
     }
 
@@ -35,6 +34,7 @@ public class DoctorChargeMapper {
         charge.setDoctor(doctor);
         charge.setBedBooking(bedBooking);
         charge.setAdmittedPatient(admittedPatient);
+        // Usually, billingStatus is handled by the Invoice flow, so we avoid overriding it here unless requested
     }
 
     public DoctorChargeResponse toResponse(DoctorCharge charge) {
@@ -43,6 +43,9 @@ public class DoctorChargeMapper {
         response.setDescription(charge.getDescription());
         response.setAmount(charge.getAmount());
         response.setVisitDate(charge.getVisitDate());
+
+        // MAP THE NEW STATUS FIELD HERE
+        response.setBillingStatus(charge.getBillingStatus());
 
         if (charge.getDoctor() != null) {
             response.setDoctorId(charge.getDoctor().getId());

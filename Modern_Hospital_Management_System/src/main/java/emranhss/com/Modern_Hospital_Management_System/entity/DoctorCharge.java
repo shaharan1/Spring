@@ -27,6 +27,8 @@ public class DoctorCharge {
 
     private LocalDate visitDate;
 
+    private String billingStatus = "PENDING";
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
