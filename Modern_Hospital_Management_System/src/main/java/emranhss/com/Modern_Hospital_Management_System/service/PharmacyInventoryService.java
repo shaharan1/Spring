@@ -14,5 +14,5 @@ public interface PharmacyInventoryService {
     List<SupplierResponse> getAllSuppliers();
     MedicineStockResponse addMedicineToStock(MedicineStockRequest request);
     List<MedicineStockResponse> searchMedicines(String query);
-
+    List<MedicineStockResponse> searchAllMedicines();
 }

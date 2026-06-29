@@ -11,5 +11,6 @@ import java.util.List;
 public interface MedicineStockRepository extends JpaRepository<MedicineStock, Long> {
 
     List<MedicineStock> findByMedicineNameContainingIgnoreCase(String medicineName);
+   
 
 }

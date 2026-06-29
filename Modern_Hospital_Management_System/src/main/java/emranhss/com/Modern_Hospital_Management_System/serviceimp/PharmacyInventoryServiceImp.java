@@ -67,4 +67,12 @@ public class PharmacyInventoryServiceImp implements PharmacyInventoryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<MedicineStockResponse> searchAllMedicines() {
+
+        return medicineStockRepository.findAll().stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
 }
