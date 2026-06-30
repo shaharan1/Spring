@@ -19,8 +19,10 @@ public class AppointmentMapper {
         response.setPatientName(appointment.getPatientName());
         response.setMobileNumber(appointment.getMobileNumber());
         response.setSpecialization(appointment.getSpecialization());
-        response.setName(appointment.getName());
-        response.setPhone(appointment.getPhone());
+
+//        -----------------------------------------
+//        response.setName(appointment.getName());
+//        response.setPhone(appointment.getPhone());
 
         // Map core appointment parameters
         response.setAppointmentDate(appointment.getAppointmentDate());

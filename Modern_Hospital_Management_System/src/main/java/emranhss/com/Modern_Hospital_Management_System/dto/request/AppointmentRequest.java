@@ -22,8 +22,8 @@ public class AppointmentRequest {
 
     // Booking parameters
 
-    private String name;               // Full name from landing page
-    private String phone;              // Track visit frequency
+//    private String name;               // Full name from landing page
+//    private String phone;              // Track visit frequency
     private String problemDescription; // Patient problem statement
 
     private Long doctorId;

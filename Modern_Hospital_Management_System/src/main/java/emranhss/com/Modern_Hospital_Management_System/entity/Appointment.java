@@ -28,9 +28,9 @@ public class Appointment {
     private String mobileNumber;
     private String specialization;
 
-    // Core Booking Parameters
-    private String name;
-    private String phone;
+//    // Core Booking Parameters
+//    private String name;
+//    private String phone;
     @Column(columnDefinition = "TEXT")
     private String problemDescription;
 

@@ -18,8 +18,8 @@ public class AppointmentResponse {
     private String patientName;
     private String mobileNumber;
     private String specialization;
-    private String name;
-    private String phone;
+//    private String name;
+//    private String phone;
     private String problemDescription;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;

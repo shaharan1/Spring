@@ -62,8 +62,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment.setAppointmentNumber("APT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase());
         appointment.setSpecialization(request.getSpecialization());
-        appointment.setName(request.getName());
-        appointment.setPhone(request.getPhone());
+
+//        -------------------------------------------
+//        appointment.setName(request.getName());
+//        appointment.setPhone(request.getPhone());
         appointment.setProblemDescription(request.getProblemDescription());
         appointment.setDoctor(doctor);
         appointment.setScheduleSlot(slot);
@@ -73,7 +75,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setTransactionId(request.getTransactionId());
 
         //  Calculate and set the fee before saving
-        Double totalFee = calculateFeeForPhone(request.getPhone(), request.getDoctorId());
+        Double totalFee = calculateFeeForPhone(request.getMobileNumber(), request.getDoctorId());
         appointment.setFeeCharged(totalFee);
 
         if ("Cash".equalsIgnoreCase(request.getPaymentMethod())) {
@@ -130,7 +132,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with ID: " + doctorId));
 
-        boolean hasSeenDoctorBefore = appointmentRepository.existsByPhoneAndDoctorIdAndStatus(phone, doctorId, "CONFIRMED");
+        boolean hasSeenDoctorBefore = appointmentRepository.existsByMobileNumberAndDoctorIdAndStatus(phone, doctorId, "CONFIRMED");
 
         if (hasSeenDoctorBefore) {
             return doctor.getFollowUpFee();
@@ -141,6 +143,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional(readOnly = true)
     public Boolean isReturningPatient(String phone) {
-        return appointmentRepository.existsByPhoneAndStatus(phone, "CONFIRMED");
+        return appointmentRepository.existsByMobileNumberAndStatus(phone, "CONFIRMED");
     }
 }
