@@ -1,7 +1,6 @@
 package emranhss.com.Modern_Hospital_Management_System.controller;
 
 import emranhss.com.Modern_Hospital_Management_System.dto.request.MealServeRequest;
-import emranhss.com.Modern_Hospital_Management_System.dto.response.MealServeResponse;
 import emranhss.com.Modern_Hospital_Management_System.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

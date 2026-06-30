@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface MealRepository extends JpaRepository<Meal, Long> {
-    // Fetches real-time unbilled logs to fuel modular accounting summaries dynamically
-    List<Meal> findByAdmittedPatientIdAndBillingStatus(Long admittedPatientId, String billingStatus);
+    List<Meal> findByAdmittedPatientId(Long admittedPatientId);
+    List<Meal> findByBillingStatus(String billingStatus);
 }
