@@ -45,7 +45,7 @@ public class Appointment {
     private Double feeCharged; // Persists either consultationFee or followUpFee
 
     // Registered Patient Link (Optional, nullable for guest checkouts)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "patient_id", nullable = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Patient patient;
