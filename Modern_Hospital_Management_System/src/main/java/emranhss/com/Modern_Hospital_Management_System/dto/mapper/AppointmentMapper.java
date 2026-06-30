@@ -12,26 +12,47 @@ public class AppointmentMapper {
 
         AppointmentResponse response = new AppointmentResponse();
         response.setId(appointment.getId());
+        response.setAppointmentNumber(appointment.getAppointmentNumber());
+        response.setStatus(appointment.getStatus());
 
+        // Map landing page form data/guest parameters
+        response.setPatientName(appointment.getPatientName());
+        response.setMobileNumber(appointment.getMobileNumber());
+        response.setSpecialization(appointment.getSpecialization());
+        response.setName(appointment.getName());
+        response.setPhone(appointment.getPhone());
+
+        // Map core appointment parameters
+        response.setAppointmentDate(appointment.getAppointmentDate());
+        response.setAppointmentTime(appointment.getAppointmentTime());
+        response.setProblemDescription(appointment.getProblemDescription());
+        response.setFeeCharged(appointment.getFeeCharged()); // Synced with entity field
+
+        // Map financial gateway metrics
+        response.setPaymentMethod(appointment.getPaymentMethod());
+        response.setTransactionId(appointment.getTransactionId());
+
+        // Map optional registered patient entity context safely
         if (appointment.getPatient() != null) {
-            response.setPatientId(appointment.getPatient().getId());
-            response.setPatientName(appointment.getPatient().getFirstName());
-            response.setPatientPhone(appointment.getPatient().getPhone());
+            response.setRegisteredPatientId(appointment.getPatient().getId());
+            // Overwrite with full name if profile exists
+            response.setPatientName(appointment.getPatient().getFirstName() + " " + appointment.getPatient().getLastName());
+            response.setMobileNumber(appointment.getPatient().getPhone());
         }
 
+        // Map core assigned doctor entity context safely
         if (appointment.getDoctor() != null) {
             response.setDoctorId(appointment.getDoctor().getId());
             response.setDoctorName(appointment.getDoctor().getName());
             response.setDoctorSpecialization(appointment.getDoctor().getSpecialization());
+            response.setDoctorChamber(appointment.getDoctor().getChamber());
         }
 
-        response.setAppointmentDate(appointment.getAppointmentDate());
-        response.setAppointmentTime(appointment.getAppointmentTime());
-        response.setStatus(appointment.getStatus());
-        response.setFeeCharged(appointment.getFeeCharged());
-        response.setProblemDescription(appointment.getProblemDescription());
-        response.setPaymentMethod(appointment.getPaymentMethod());
-        response.setTransactionId(appointment.getTransactionId());
+        // Map unique reference slot boundary safely
+        if (appointment.getScheduleSlot() != null) {
+            response.setScheduleSlotId(appointment.getScheduleSlot().getId());
+            response.setSlotIsBooked(appointment.getScheduleSlot().getIsBooked());
+        }
 
         return response;
     }

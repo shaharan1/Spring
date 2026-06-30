@@ -11,19 +11,34 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class AppointmentResponse {
     private Long id;
-    private Long patientId;
-    private String patientName;
-    private String patientPhone;
-    private Long doctorId;
-    private String doctorName;
-    private String doctorSpecialization;
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
+    private String appointmentNumber;
     private String status;
 
-    // New fields mapped for front page tracking
-    private Double feeCharged;
+    // Form parameters
+    private String patientName;
+    private String mobileNumber;
+    private String specialization;
+    private String name;
+    private String phone;
     private String problemDescription;
+    private LocalDate appointmentDate;
+    private LocalTime appointmentTime;
+
+
+    private Double feeCharged;
+
+    // Payment fields
     private String paymentMethod;
     private String transactionId;
+
+    // Relationship IDs
+    private Long registeredPatientId;
+    private Long doctorId;
+    private String doctorName;
+    private String doctorChamber;
+    private Long scheduleSlotId;
+    private Boolean slotIsBooked;
+
+
+    private String doctorSpecialization;
 }

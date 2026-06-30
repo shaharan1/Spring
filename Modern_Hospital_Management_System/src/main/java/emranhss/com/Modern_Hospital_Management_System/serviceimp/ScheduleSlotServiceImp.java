@@ -50,7 +50,7 @@ public class ScheduleSlotServiceImp implements ScheduleSlotService {
         if (!doctorRepository.existsById(doctorId)) {
             throw new ResourceNotFoundException("Doctor record missing with ID: " + doctorId);
         }
-        return scheduleSlotRepository.findByDoctorIdAndDateAndIsBookedFalse(doctorId, date).stream()
+        return scheduleSlotRepository.findByDoctorIdAndDateAndIsBookedFalse(doctorId, date,true).stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }

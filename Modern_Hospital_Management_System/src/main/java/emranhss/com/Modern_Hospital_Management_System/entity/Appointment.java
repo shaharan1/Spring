@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -19,14 +21,32 @@ public class Appointment {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String appointmentNumber; // e.g., APT-20260630-001
+    private String appointmentNumber;
 
-    private String chiefComplaint;
-    private String status; // PENDING, CONFIRMED, CANCELLED, COMPLETED
+    // Guest Info Fields
+    private String patientName;
+    private String mobileNumber;
+    private String specialization;
+
+    // Core Booking Parameters
+    private String name;
+    private String phone;
+    @Column(columnDefinition = "TEXT")
+    private String problemDescription;
+
+    private LocalDate appointmentDate;
+    private LocalTime appointmentTime;
+
+    // Payment Gateway Tracking
+    private String paymentMethod;
+    private String transactionId;
+    private String status;             // PENDING, CONFIRMED, CANCELLED
     private LocalDateTime createdDate;
+    private Double feeCharged; // Persists either consultationFee or followUpFee
 
+    // Registered Patient Link (Optional, nullable for guest checkouts)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Patient patient;
 
