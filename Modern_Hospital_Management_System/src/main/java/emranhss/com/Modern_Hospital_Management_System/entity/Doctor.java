@@ -1,5 +1,6 @@
 package emranhss.com.Modern_Hospital_Management_System.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,16 +40,17 @@ public class Doctor {
     private String registrationNumber;
 
     private Integer experienceYears;
-    private Double consultationFee; // Used as First Visit Rate
-    private Double followUpFee;     // Used as Second/Returning Visit Rate
+    private Double consultationFee;
+    private Double followUpFee;
     private String availableDays;
     private String dutyHours;
     private String chamber;
     private LocalDate joinDate;
     private String photo;
 
-    // Fixed Link: Connects doctor to a specific department room/wing
+    // Connects this doctor to  DoctorDepartment entity
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @JoinColumn(name = "doctor_department_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctors"})
+    private DoctorDepartment doctorDepartment;
 }
