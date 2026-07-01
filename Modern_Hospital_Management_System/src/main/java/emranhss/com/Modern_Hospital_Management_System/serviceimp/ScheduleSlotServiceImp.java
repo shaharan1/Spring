@@ -1,6 +1,5 @@
 package emranhss.com.Modern_Hospital_Management_System.serviceimp;
 
-
 import emranhss.com.Modern_Hospital_Management_System.dto.mapper.ScheduleSlotMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.ScheduleSlotRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.ScheduleSlotResponse;
@@ -26,8 +25,6 @@ public class ScheduleSlotServiceImp implements ScheduleSlotService {
     private final DoctorRepository doctorRepository;
     private final ScheduleSlotMapper mapper;
 
-
-
     @Override
     @Transactional
     public ScheduleSlotResponse createSlot(ScheduleSlotRequest request) {
@@ -50,7 +47,8 @@ public class ScheduleSlotServiceImp implements ScheduleSlotService {
         if (!doctorRepository.existsById(doctorId)) {
             throw new ResourceNotFoundException("Doctor record missing with ID: " + doctorId);
         }
-        return scheduleSlotRepository.findByDoctorIdAndDateAndIsBookedFalse(doctorId, date,true).stream()
+        //  Removed the invalid trailing third argument (true) parameter match criteria block
+        return scheduleSlotRepository.findByDoctorIdAndDateAndIsBookedFalse(doctorId, date).stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -62,5 +60,14 @@ public class ScheduleSlotServiceImp implements ScheduleSlotService {
                 .orElseThrow(() -> new ResourceNotFoundException("Schedule slot missing with ID: " + id));
         slot.setIsBooked(isBooked);
         return mapper.toResponse(scheduleSlotRepository.save(slot));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ScheduleSlotResponse> getAllSlots() {
+        //  Successfully added implementation to retrieve and map all schedule slot records smoothly
+        return scheduleSlotRepository.findAll().stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

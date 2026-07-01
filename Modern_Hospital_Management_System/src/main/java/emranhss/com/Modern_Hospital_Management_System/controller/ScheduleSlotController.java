@@ -41,4 +41,10 @@ public class ScheduleSlotController {
             @RequestParam Boolean isBooked) {
         return ResponseEntity.ok(slotService.toggleSlotBookingStatus(id, isBooked));
     }
+
+    // New Endpoint: Get and display all generated schedule slots across the system
+    @GetMapping
+    public ResponseEntity<List<ScheduleSlotResponse>> getAllSlots() {
+        return ResponseEntity.ok(slotService.getAllSlots());
+    }
 }
