@@ -57,7 +57,7 @@ public class DoctorServiceImp implements DoctorService {
      */
     @Override
     public List<DoctorResponse> getDoctorsByDepartment(Long departmentId) {
-        return doctorRepository.findByDepartmentId(departmentId).stream()
+        return doctorRepository.findByDoctorDepartmentId(departmentId).stream()
                 .map(doctorMapper::toResponse)
                 .collect(Collectors.toList());
     }

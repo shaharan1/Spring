@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -40,15 +41,24 @@ public class Doctor {
     private String registrationNumber;
 
     private Integer experienceYears;
-    private Double consultationFee;
-    private Double followUpFee;
+    private Double consultationFee; // Used as First Visit Rate
+    private Double followUpFee;     // Used as Second/Returning Visit Rate
     private String availableDays;
     private String dutyHours;
     private String chamber;
     private LocalDate joinDate;
     private String photo;
 
-    // Connects this doctor to  DoctorDepartment entity
+
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "slots"})
+    private List<ScheduleSlot> slots;
+
+
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reports;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_department_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctors"})
