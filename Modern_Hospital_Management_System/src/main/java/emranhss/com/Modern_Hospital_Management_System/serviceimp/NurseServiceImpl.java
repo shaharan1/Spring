@@ -5,39 +5,50 @@ import emranhss.com.Modern_Hospital_Management_System.dto.request.NurseRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.NurseResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.Nurse;
 import emranhss.com.Modern_Hospital_Management_System.entity.User;
+import emranhss.com.Modern_Hospital_Management_System.enums.Role;
 import emranhss.com.Modern_Hospital_Management_System.repository.NurseRepository;
 import emranhss.com.Modern_Hospital_Management_System.repository.UserRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.NurseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class NurseServiceImpl implements NurseService {
 
     private final NurseRepository nurseRepository;
     private final UserRepository userRepository;
     private final NurseMapper nurseMapper;
 
-    public NurseServiceImpl(NurseRepository nurseRepository, UserRepository userRepository, NurseMapper nurseMapper) {
-        this.nurseRepository = nurseRepository;
-        this.userRepository = userRepository;
-        this.nurseMapper = nurseMapper;
-    }
+
 
     @Override
     @Transactional
     public NurseResponse saveNurseProfile(NurseRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("Base User login record not found for ID: " + request.getUserId()));
 
-        if (nurseRepository.findByEmail(request.getEmail()).isPresent()) {
+        User user = new User();
+
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setPassword(request.getPassword());
+        user.setRole(Role.Nurse);
+        user.setActive(true);
+
+
+
+        if (nurseRepository.findByUserEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("A clinical profile with this email already exists.");
         }
 
+        User savedUser = userRepository.save(user);
+
+
         Nurse nurse = nurseMapper.toEntity(request);
-        nurse.setUser(user);
+        nurse.setUser(savedUser);
 
         Nurse savedNurse = nurseRepository.save(nurse);
         return nurseMapper.toResponse(savedNurse);
@@ -52,7 +63,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public NurseResponse getNurseByEmail(String email) {
-        Nurse nurse = nurseRepository.findByEmail(email)
+        Nurse nurse = nurseRepository.findByUserEmail(email)
                 .orElseThrow(() -> new RuntimeException("Nurse medical profile record not found for email: " + email));
         return nurseMapper.toResponse(nurse);
     }

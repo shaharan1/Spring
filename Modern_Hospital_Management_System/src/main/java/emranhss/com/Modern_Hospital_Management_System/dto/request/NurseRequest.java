@@ -8,10 +8,13 @@ import java.time.LocalDate;
 
 @Data
 public class NurseRequest {
-    private int userId; // Ties to core User table ID
-    private String fullName;
+
+
+
+    private String name;
     private String email;
     private String phone;
+    private String password;
     private String address;
     private Gender gender;
     private LocalDate joinDate;
@@ -25,4 +28,6 @@ public class NurseRequest {
     private Boolean onDuty;
     private String assignedWard;
     private String remarks;
+
+
 }

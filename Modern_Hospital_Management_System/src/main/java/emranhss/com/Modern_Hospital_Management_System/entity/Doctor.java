@@ -19,14 +19,14 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 80, nullable = false)
-    private String name;
-
-    @Column(length = 80, nullable = false, unique = true)
-    private String email;
-
-    @Column(unique = true)
-    private String phone;
+//    @Column(length = 80, nullable = false)
+//    private String name;
+//
+//    @Column(length = 80, nullable = false, unique = true)
+//    private String email;
+//
+//    @Column(unique = true)
+//    private String phone;
 
     private String gender;
     private String status;
@@ -57,6 +57,11 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Report> reports;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

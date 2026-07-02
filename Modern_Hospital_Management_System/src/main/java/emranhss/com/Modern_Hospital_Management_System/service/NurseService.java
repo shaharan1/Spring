@@ -5,6 +5,7 @@ import emranhss.com.Modern_Hospital_Management_System.dto.response.NurseResponse
 import java.util.List;
 
 public interface NurseService {
+
     NurseResponse saveNurseProfile(NurseRequest request);
     NurseResponse getNurseById(Long id);
     NurseResponse getNurseByEmail(String email);

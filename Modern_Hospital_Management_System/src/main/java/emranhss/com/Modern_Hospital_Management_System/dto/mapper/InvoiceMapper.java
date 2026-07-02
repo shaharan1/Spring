@@ -24,7 +24,7 @@ public class InvoiceMapper {
         BeanUtils.copyProperties(invoice, resp);
 
         if (invoice.getDoctor() != null) {
-            resp.setReferredDoctorName(invoice.getDoctor().getName());
+            resp.setReferredDoctorName(invoice.getDoctor().getUser().getName());
         }
 
         if (invoice.getTests() != null) {

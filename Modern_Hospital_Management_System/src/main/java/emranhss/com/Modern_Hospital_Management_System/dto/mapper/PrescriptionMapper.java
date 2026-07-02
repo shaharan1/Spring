@@ -26,7 +26,7 @@ public class PrescriptionMapper {
         }
 
         if (prescription.getDoctor() != null) {
-            response.setDoctorName(prescription.getDoctor().getName());
+            response.setDoctorName(prescription.getDoctor().getUser().getName());
             response.setDoctorSpecialization(prescription.getDoctor().getSpecialization());
         }
 

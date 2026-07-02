@@ -10,9 +10,10 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class NurseResponse {
+
     private Long id;
-    private int userId;
-    private String fullName;
+    private Long userId;
+    private String name;
     private String email;
     private String phone;
     private String address;

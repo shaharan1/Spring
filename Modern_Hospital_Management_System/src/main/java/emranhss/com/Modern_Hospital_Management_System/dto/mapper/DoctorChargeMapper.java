@@ -49,7 +49,7 @@ public class DoctorChargeMapper {
 
         if (charge.getDoctor() != null) {
             response.setDoctorId(charge.getDoctor().getId());
-            response.setDoctorName(charge.getDoctor().getName());
+            response.setDoctorName(charge.getDoctor().getUser().getName());
         }
 
         if (charge.getBedBooking() != null) {

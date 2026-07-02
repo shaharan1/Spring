@@ -4,8 +4,13 @@ import emranhss.com.Modern_Hospital_Management_System.dto.mapper.DoctorMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.DoctorRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.DoctorResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.Doctor;
+import emranhss.com.Modern_Hospital_Management_System.entity.DoctorDepartment;
+import emranhss.com.Modern_Hospital_Management_System.entity.User;
+import emranhss.com.Modern_Hospital_Management_System.enums.Role;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
+import emranhss.com.Modern_Hospital_Management_System.repository.DoctorDepartmentRepository;
 import emranhss.com.Modern_Hospital_Management_System.repository.DoctorRepository;
+import emranhss.com.Modern_Hospital_Management_System.repository.UserRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,13 +24,39 @@ import java.util.stream.Collectors;
 public class DoctorServiceImp implements DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final DoctorDepartmentRepository doctorDepartmentRepository;
     private final DoctorMapper doctorMapper;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public DoctorResponse createDoctor(DoctorRequest request) {
+
+
+        User user = new User();
+
+        user.setEmail(request.getEmail());
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setPassword(request.getPassword());
+        user.setRole(Role.Doctor);
+        user.setActive(true);
+
+        DoctorDepartment dm= doctorDepartmentRepository.findById(request.getDoctorDepatrmentId())
+                .orElseThrow(() -> new RuntimeException("Doctor Department not Found"));
+
+
+        User savedUser = userRepository.save(user);
+
         if (request == null) return null;
+
         Doctor doctor = doctorMapper.toEntity(request);
+        // Link User
+        doctor.setUser(savedUser);
+
+        // Link Department
+        doctor.setDoctorDepartment(dm);
+
         return doctorMapper.toResponse(doctorRepository.save(doctor));
     }
 

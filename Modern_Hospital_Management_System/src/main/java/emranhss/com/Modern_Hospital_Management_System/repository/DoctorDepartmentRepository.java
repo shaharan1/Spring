@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface DoctorDepartmentRepository extends JpaRepository<DoctorDepartment, Long> {
     
     Optional<DoctorDepartment> findByDepartmentNameIgnoreCase(String departmentName);
+
+    DoctorDepartment findById(long id);
 }

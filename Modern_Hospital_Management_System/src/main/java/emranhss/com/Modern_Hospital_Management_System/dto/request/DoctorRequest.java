@@ -16,6 +16,7 @@ public class DoctorRequest {
     private String name;
     private String email;
     private String phone;
+    private String password;
     private String gender;
     private String status;
     private String study;
@@ -30,4 +31,5 @@ public class DoctorRequest {
     private String chamber;
     private LocalDate joinDate;
     private String photo;
+    private Long doctorDepatrmentId;
 }

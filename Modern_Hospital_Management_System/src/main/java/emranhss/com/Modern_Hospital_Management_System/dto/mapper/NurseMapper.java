@@ -3,6 +3,7 @@ package emranhss.com.Modern_Hospital_Management_System.dto.mapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.NurseRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.NurseResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.Nurse;
+import emranhss.com.Modern_Hospital_Management_System.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,10 +11,16 @@ public class NurseMapper {
 
     public Nurse toEntity(NurseRequest request) {
         if (request == null) return null;
+        User u = new User();
+
+        u.setName(request.getName());
+        u.setEmail(request.getEmail());
+        u.setPhone(request.getPhone());
+        u.setPassword(request.getPassword());
+
         Nurse nurse = new Nurse();
-        nurse.setFullName(request.getFullName());
-        nurse.setEmail(request.getEmail());
-        nurse.setPhone(request.getPhone());
+        nurse.setUser(u);
+
         nurse.setAddress(request.getAddress());
         nurse.setGender(request.getGender());
         nurse.setJoinDate(request.getJoinDate());
@@ -36,9 +43,9 @@ public class NurseMapper {
         return NurseResponse.builder()
                 .id(nurse.getId())
                 .userId(nurse.getUser() != null ? nurse.getUser().getId() : 0)
-                .fullName(nurse.getFullName())
-                .email(nurse.getEmail())
-                .phone(nurse.getPhone())
+                .name(nurse.getUser().getName())
+                .email(nurse.getUser().getEmail())
+                .phone(nurse.getUser().getPhone())
                 .address(nurse.getAddress())
                 .gender(nurse.getGender())
                 .joinDate(nurse.getJoinDate())

@@ -21,7 +21,7 @@ public class ScheduleSlotMapper {
 
         if (slot.getDoctor() != null) {
             resp.setDoctorId(slot.getDoctor().getId());
-            resp.setDoctorName(slot.getDoctor().getName());
+            resp.setDoctorName(slot.getDoctor().getUser().getName());
             resp.setDoctorSpecialization(slot.getDoctor().getSpecialization());
         }
 

@@ -49,7 +49,7 @@ public class ReportMapper {
 
         if (report.getDoctor() != null) {
             response.setDoctorId(report.getDoctor().getId());
-            response.setDoctorName(report.getDoctor().getName());
+            response.setDoctorName(report.getDoctor().getUser().getName());
             response.setDoctorSpecialization(report.getDoctor().getSpecialization());
         }
         return response;

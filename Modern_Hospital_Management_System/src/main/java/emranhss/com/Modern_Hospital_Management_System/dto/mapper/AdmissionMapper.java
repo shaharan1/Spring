@@ -27,7 +27,7 @@ public class AdmissionMapper {
         }
 
         if (admittedPatient.getPrimaryDoctor() != null) {
-            resp.setDoctorName(admittedPatient.getPrimaryDoctor().getName());
+            resp.setDoctorName(admittedPatient.getPrimaryDoctor().getUser().getName());
         }
 
         if (activeBooking != null && activeBooking.getBed() != null) {

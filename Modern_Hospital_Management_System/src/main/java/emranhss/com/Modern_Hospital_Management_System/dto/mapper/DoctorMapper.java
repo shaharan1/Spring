@@ -19,11 +19,46 @@ public class DoctorMapper {
     }
 
     public DoctorResponse toResponse(Doctor doctor) {
-        if (doctor == null) return null;
+        if (doctor == null) {
+            return null;
+        }
+
         DoctorResponse response = new DoctorResponse();
-        BeanUtils.copyProperties(doctor, response);
+
+        response.setId(doctor.getId());
+
+        // User
+        if (doctor.getUser() != null) {
+            response.setName(doctor.getUser().getName());
+            response.setEmail(doctor.getUser().getEmail());
+            response.setPhone(doctor.getUser().getPhone());
+        }
+
+        // Doctor
+        response.setGender(doctor.getGender());
+        response.setStatus(doctor.getStatus());
+        response.setStudy(doctor.getStudy());
+        response.setSpecialization(doctor.getSpecialization());
+        response.setDesignation(doctor.getDesignation());
+        response.setRegistrationNumber(doctor.getRegistrationNumber());
+        response.setExperienceYears(doctor.getExperienceYears());
+        response.setConsultationFee(doctor.getConsultationFee());
+        response.setFollowUpFee(doctor.getFollowUpFee());
+        response.setAvailableDays(doctor.getAvailableDays());
+        response.setDutyHours(doctor.getDutyHours());
+        response.setChamber(doctor.getChamber());
+        response.setJoinDate(doctor.getJoinDate());
+        response.setPhoto(doctor.getPhoto());
+
+        // Department
+        if (doctor.getDoctorDepartment() != null) {
+            response.setDepartmentId(doctor.getDoctorDepartment().getId());
+        }
+
         return response;
     }
+
+
 
     public void updateEntityFromRequest(DoctorRequest request, Doctor doctor) {
         if (request == null || doctor == null) return;

@@ -35,14 +35,15 @@ public class Nurse {
     // Personal Information
     //---------------------------------------
 
-    @Column(nullable = false, length = 80)
-    private String fullName;
+//    @Column(nullable = false, length = 80)
+//    private String fullName;
+//
+//    @Column(unique = true)
+//    private String email;
+//
+//    @Column(length = 20)
+//    private String phone;
 
-    @Column(unique = true)
-    private String email;
-
-    @Column(length = 20)
-    private String phone;
 
     @Column(length = 300)
     private String address;

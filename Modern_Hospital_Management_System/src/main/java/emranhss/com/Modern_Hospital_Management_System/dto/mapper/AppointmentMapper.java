@@ -45,7 +45,7 @@ public class AppointmentMapper {
         // Map core assigned doctor entity context safely
         if (appointment.getDoctor() != null) {
             response.setDoctorId(appointment.getDoctor().getId());
-            response.setDoctorName(appointment.getDoctor().getName());
+            response.setDoctorName(appointment.getDoctor().getUser().getName());
             response.setDoctorSpecialization(appointment.getDoctor().getSpecialization());
             response.setDoctorChamber(appointment.getDoctor().getChamber());
         }

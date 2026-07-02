@@ -30,7 +30,7 @@ public class DiagnosticMapper {
                 resp.setPatientName(entry.getTestOrder().getPatient().getFirstName() + " " + entry.getTestOrder().getPatient().getLastName());
             }
             if (entry.getTestOrder().getPrescribedBy() != null) {
-                resp.setDoctorName(entry.getTestOrder().getPrescribedBy().getName());
+                resp.setDoctorName(entry.getTestOrder().getPrescribedBy().getUser().getName());
             }
         }
         return resp;
