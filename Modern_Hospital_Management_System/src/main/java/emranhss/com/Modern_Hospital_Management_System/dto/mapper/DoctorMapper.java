@@ -53,6 +53,9 @@ public class DoctorMapper {
         // Department
         if (doctor.getDoctorDepartment() != null) {
             response.setDepartmentId(doctor.getDoctorDepartment().getId());
+            response.setDepartmentName(doctor.getDoctorDepartment().getDepartmentName());
+            response.setDescription(doctor.getDoctorDepartment().getDescription());
+
         }
 
         return response;

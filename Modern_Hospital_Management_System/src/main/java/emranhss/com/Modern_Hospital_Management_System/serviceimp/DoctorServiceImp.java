@@ -36,6 +36,8 @@ public class DoctorServiceImp implements DoctorService {
         User user = new User();
 
         user.setEmail(request.getEmail());
+
+        System.out.println(request.getEmail()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         user.setName(request.getName());
         user.setPhone(request.getPhone());
         user.setPassword(request.getPassword());
@@ -87,6 +89,7 @@ public class DoctorServiceImp implements DoctorService {
      * Critical Method: Fetches doctors under a specific department selected on the home page.
      */
     @Override
+
     public List<DoctorResponse> getDoctorsByDepartment(Long departmentId) {
         return doctorRepository.findByDoctorDepartmentId(departmentId).stream()
                 .map(doctorMapper::toResponse)
@@ -96,12 +99,37 @@ public class DoctorServiceImp implements DoctorService {
     @Override
     @Transactional
     public DoctorResponse updateDoctor(Long id, DoctorRequest request) {
+
         Doctor doctor = doctorRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
 
         doctorMapper.updateEntityFromRequest(request, doctor);
+
+        doctor.getUser().setName(request.getName());
+        doctor.getUser().setEmail(request.getEmail());
+        doctor.getUser().setPhone(request.getPhone());
+
+        if(request.getPassword()!=null){
+            doctor.getUser().setPassword(request.getPassword());
+        }
+
+        DoctorDepartment department =
+                doctorDepartmentRepository.findById(request.getDoctorDepatrmentId())
+                        .orElseThrow(() -> new RuntimeException("Department not found"));
+
+        doctor.setDoctorDepartment(department);
+
+        userRepository.save(doctor.getUser());
+
         return doctorMapper.toResponse(doctorRepository.save(doctor));
     }
+//    public DoctorResponse updateDoctor(Long id, DoctorRequest request) {
+//        Doctor doctor = doctorRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + id));
+//
+//        doctorMapper.updateEntityFromRequest(request, doctor);
+//        return doctorMapper.toResponse(doctorRepository.save(doctor));
+//    }
 
     @Override
     @Transactional
