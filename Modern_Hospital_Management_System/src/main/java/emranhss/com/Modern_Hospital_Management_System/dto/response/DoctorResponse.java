@@ -28,4 +28,7 @@ public class DoctorResponse {
     private LocalDate joinDate;
     private String photo;
     private Long departmentId; // Added to map relationship back to frontend
+    private String departmentName;
+    private String description;
+
 }

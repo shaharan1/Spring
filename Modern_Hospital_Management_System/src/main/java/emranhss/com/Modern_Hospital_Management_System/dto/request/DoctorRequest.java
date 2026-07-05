@@ -32,4 +32,6 @@ public class DoctorRequest {
     private LocalDate joinDate;
     private String photo;
     private Long doctorDepatrmentId;
+
+
 }
