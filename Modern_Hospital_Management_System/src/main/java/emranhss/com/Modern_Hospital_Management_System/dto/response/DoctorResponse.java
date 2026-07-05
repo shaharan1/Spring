@@ -1,5 +1,6 @@
 package emranhss.com.Modern_Hospital_Management_System.dto.response;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,10 @@ public class DoctorResponse {
     private String chamber;
     private LocalDate joinDate;
     private String photo;
-    private Long departmentId; // Added to map relationship back to frontend
+    private Long departmentId; // Added to map relationship back to front
+
+
+
     private String departmentName;
     private String description;
 

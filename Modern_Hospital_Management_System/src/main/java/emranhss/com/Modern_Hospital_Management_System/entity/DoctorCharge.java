@@ -40,4 +40,6 @@ public class DoctorCharge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admitted_patient_id")
     private AdmittedPatient admittedPatient;
+
+
 }
