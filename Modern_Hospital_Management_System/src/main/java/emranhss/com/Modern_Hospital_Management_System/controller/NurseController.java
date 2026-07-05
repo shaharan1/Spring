@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/nurses")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class NurseController {
 
     private final NurseService nurseService;
