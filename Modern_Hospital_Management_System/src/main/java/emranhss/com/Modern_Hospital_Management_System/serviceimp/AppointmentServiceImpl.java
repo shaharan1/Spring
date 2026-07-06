@@ -157,4 +157,38 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .collect(Collectors.toList());
 
     }
+
+//    --------------Filter Appointments---------------
+@Override
+@Transactional(readOnly = true)
+public List<AppointmentResponse> filterAppointments(Long doctorId, LocalDate date) {
+
+    List<Appointment> appointments;
+
+    if (doctorId != null && date != null) {
+
+        appointments = appointmentRepository
+                .findByDoctorIdAndAppointmentDate(doctorId, date);
+
+    } else if (doctorId != null) {
+
+        appointments = appointmentRepository
+                .findByDoctorId(doctorId);
+
+    } else if (date != null) {
+
+        appointments = appointmentRepository
+                .findByAppointmentDate(date);
+
+    } else {
+
+        appointments = appointmentRepository.findAll();
+
+    }
+
+    return appointments.stream()
+            .map(appointmentMapper::toResponse)
+            .collect(Collectors.toList());
+
+}
 }

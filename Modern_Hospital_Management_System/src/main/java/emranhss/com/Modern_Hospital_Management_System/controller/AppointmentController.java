@@ -67,4 +67,22 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponse>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
+
+//    --------------Filter Appointments---------------
+@GetMapping("/filter")
+public ResponseEntity<List<AppointmentResponse>> filterAppointments(
+
+        @RequestParam(required = false) Long doctorId,
+
+        @RequestParam(required = false)
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+        LocalDate date
+
+) {
+
+    return ResponseEntity.ok(
+            appointmentService.filterAppointments(doctorId, date)
+    );
+
+}
 }

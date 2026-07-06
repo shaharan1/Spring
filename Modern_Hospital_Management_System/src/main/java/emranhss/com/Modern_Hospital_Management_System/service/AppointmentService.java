@@ -10,10 +10,14 @@ public interface AppointmentService {
     AppointmentResponse cancelAppointment(Long id);
     List<AppointmentResponse> viewSchedule(LocalDate date);
     List<AppointmentResponse> getDoctorWiseAppointments(Long doctorId);
-
+    //    -----------Filter Appointments---------
+    List<AppointmentResponse> filterAppointments(Long doctorId, LocalDate date);
     // Functions for dynamic public fee display on checkout
     Double calculateFeeForPhone(String phone, Long doctorId);
     Boolean isReturningPatient(String phone);
 
     List<AppointmentResponse> getAllAppointments();
+
+
+
 }
