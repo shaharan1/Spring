@@ -11,10 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/schedule-slots")
+    @RequestMapping("/api/schedule-slots")
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class ScheduleSlotController {
@@ -47,4 +48,58 @@ public class ScheduleSlotController {
     public ResponseEntity<List<ScheduleSlotResponse>> getAllSlots() {
         return ResponseEntity.ok(slotService.getAllSlots());
     }
+
+
+    // Find a specific slot by doctor, date and start time
+    @GetMapping("/doctor/{doctorId}/slot")
+    public ResponseEntity<List<ScheduleSlotResponse>> findByDoctorDateAndStartTime(
+            @PathVariable Long doctorId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date,
+
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+            LocalTime startTime) {
+
+        return ResponseEntity.ok(
+                slotService.findByDoctorDateAndStartTime(
+                        doctorId,
+                        date,
+                        startTime
+                )
+        );
+    }
+
+    // Get only available (not booked) slots
+    @GetMapping("/doctor/{doctorId}/free")
+    public ResponseEntity<List<ScheduleSlotResponse>> findAvailableSlots(
+            @PathVariable Long doctorId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date) {
+
+        return ResponseEntity.ok(
+                slotService.findAvailableSlots(
+                        doctorId,
+                        date
+                )
+        );
+    }
+
+
+    @GetMapping("/doctor/{doctorId}/booked")
+    public ResponseEntity<List<ScheduleSlotResponse>> findBookedSlots(
+            @PathVariable Long doctorId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date) {
+
+        return ResponseEntity.ok(
+                slotService.findBookedSlots(
+                        doctorId,
+                        date
+                )
+        );
+    }
+
+
+
+
 }

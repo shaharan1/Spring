@@ -19,6 +19,8 @@ public interface ScheduleSlotRepository extends JpaRepository<ScheduleSlot, Long
     // It only needs the doctorId and date parameters to complete the query.
     List<ScheduleSlot> findByDoctorIdAndDateAndIsBookedFalse(Long doctorId, LocalDate date);
 
+    List<ScheduleSlot> findByDoctorIdAndDateAndIsBookedTrue(Long doctorId, LocalDate date);
+
     // Boolean isBooked(Boolean isBooked);
     // This is invalid syntax for a Spring Data JPA query declaration and will crash your application on startup.
     // To check if a slot is booked, you use standard JpaRepository options like findById(id) instead.

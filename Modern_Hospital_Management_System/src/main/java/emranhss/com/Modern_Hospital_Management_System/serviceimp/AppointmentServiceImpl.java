@@ -145,4 +145,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Boolean isReturningPatient(String phone) {
         return appointmentRepository.existsByMobileNumberAndStatus(phone, "CONFIRMED");
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AppointmentResponse> getAllAppointments() {
+
+        return appointmentRepository.findAll()
+                .stream()
+                .map(appointmentMapper::toResponse)
+                .collect(Collectors.toList());
+
+    }
 }

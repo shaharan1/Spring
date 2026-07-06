@@ -14,4 +14,6 @@ public interface AppointmentService {
     // Functions for dynamic public fee display on checkout
     Double calculateFeeForPhone(String phone, Long doctorId);
     Boolean isReturningPatient(String phone);
+
+    List<AppointmentResponse> getAllAppointments();
 }

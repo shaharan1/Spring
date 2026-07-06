@@ -41,6 +41,12 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.getDoctorsBySpecialization(specialization));
     }
 
+
+    @GetMapping("/doctordepartment/{id}")
+    public ResponseEntity<List<DoctorResponse>> getDoctorsByDepartmentId(@PathVariable Long id) {
+        return ResponseEntity.ok(doctorService.getDoctorsByDepartment(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<DoctorResponse> updateDoctor(@PathVariable Long id, @RequestBody DoctorRequest request) {
         return ResponseEntity.ok(doctorService.updateDoctor(id, request));

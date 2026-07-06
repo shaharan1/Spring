@@ -62,4 +62,9 @@ public class AppointmentController {
             @RequestParam Long doctorId) {
         return ResponseEntity.ok(appointmentService.calculateFeeForPhone(phone, doctorId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<AppointmentResponse>> getAllAppointments() {
+        return ResponseEntity.ok(appointmentService.getAllAppointments());
+    }
 }

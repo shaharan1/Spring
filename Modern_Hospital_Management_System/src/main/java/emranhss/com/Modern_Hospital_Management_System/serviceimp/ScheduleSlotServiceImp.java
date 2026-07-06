@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,4 +72,27 @@ public class ScheduleSlotServiceImp implements ScheduleSlotService {
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ScheduleSlotResponse> findByDoctorDateAndStartTime(Long doctorId, LocalDate date, LocalTime startTime) {
+        return scheduleSlotRepository.findByDoctorIdAndDateAndStartTime(doctorId, date, startTime).stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ScheduleSlotResponse> findAvailableSlots(Long doctorId, LocalDate date) {
+        return scheduleSlotRepository.findByDoctorIdAndDateAndIsBookedFalse(doctorId, date).stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ScheduleSlotResponse> findBookedSlots(Long doctorId, LocalDate date) {
+        return scheduleSlotRepository.findByDoctorIdAndDateAndIsBookedTrue(doctorId, date).stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+
 }
