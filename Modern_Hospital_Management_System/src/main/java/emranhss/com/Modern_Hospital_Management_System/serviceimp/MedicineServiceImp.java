@@ -4,9 +4,11 @@ package emranhss.com.Modern_Hospital_Management_System.serviceimp;
 import emranhss.com.Modern_Hospital_Management_System.dto.mapper.MedicineMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.MedicineRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.MedicineResponse;
+import emranhss.com.Modern_Hospital_Management_System.entity.Generic;
 import emranhss.com.Modern_Hospital_Management_System.entity.Medicine;
 import emranhss.com.Modern_Hospital_Management_System.entity.Prescription;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
+import emranhss.com.Modern_Hospital_Management_System.repository.GenericRepository;
 import emranhss.com.Modern_Hospital_Management_System.repository.MedicineRepository;
 import emranhss.com.Modern_Hospital_Management_System.repository.PrescriptionRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.MedicineService;
@@ -25,14 +27,31 @@ public class MedicineServiceImp implements MedicineService {
     private final MedicineRepository medicineRepository;
     private final PrescriptionRepository prescriptionRepository;
     private final MedicineMapper medicineMapper;
+    private final GenericRepository genericRepository;
+
+
+
 
 
     @Override
-    public MedicineResponse create(MedicineRequest request) {
-        Prescription prescription = resolvePrescription(request.getPrescriptionId());
-        Medicine medicine = medicineMapper.toEntity(request, prescription);
-        Medicine saved = medicineRepository.save(medicine);
+    public MedicineResponse create(MedicineRequest request){
+
+        Generic generic=resolveGeneric(request.getGenericId());
+
+        Prescription prescription=
+                resolvePrescription(request.getPrescriptionId());
+
+        Medicine medicine=
+                medicineMapper.toEntity(
+                        request,
+                        generic,
+                        prescription);
+
+        Medicine saved=
+                medicineRepository.save(medicine);
+
         return medicineMapper.toResponse(saved);
+
     }
 
     @Override
@@ -59,12 +78,26 @@ public class MedicineServiceImp implements MedicineService {
 
     @Override
     public MedicineResponse update(Long id, MedicineRequest request) {
+
         Medicine medicine = findMedicineOrThrow(id);
+
+        Generic generic = resolveGeneric(request.getGenericId());
+
         Prescription prescription = resolvePrescription(request.getPrescriptionId());
-        medicineMapper.updateEntity(medicine, request, prescription);
+
+        medicineMapper.updateEntity(
+                medicine,
+                request,
+                generic,
+                prescription
+        );
+
         Medicine updated = medicineRepository.save(medicine);
+
         return medicineMapper.toResponse(updated);
     }
+
+
 
     @Override
     public void delete(Long id) {
@@ -83,5 +116,27 @@ public class MedicineServiceImp implements MedicineService {
         }
         return prescriptionRepository.findById(prescriptionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Prescription not found with id: " + prescriptionId));
+    }
+
+    public List<MedicineResponse> getMedicineByGeneric(Long id){
+
+        return medicineRepository
+                .findByGenericId(id)
+                .stream()
+                .map(medicineMapper::toResponse)
+                .toList();
+
+    }
+
+    private Generic resolveGeneric(Long genericId) {
+
+        if (genericId == null) {
+            return null;
+        }
+
+        return genericRepository.findById(genericId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Generic not found with id: " + genericId));
     }
 }

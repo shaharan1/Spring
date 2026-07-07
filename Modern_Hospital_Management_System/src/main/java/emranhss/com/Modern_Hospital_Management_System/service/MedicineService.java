@@ -19,4 +19,6 @@ public interface MedicineService {
     MedicineResponse update(Long id, MedicineRequest request);
 
     void delete(Long id);
+
+    List<MedicineResponse>getMedicineByGeneric(Long Id);
 }

@@ -50,4 +50,11 @@ public class MedicineController {
         medicineService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/generic/{id}")
+    public List<MedicineResponse> getMedicineByGeneric(@PathVariable Long id){
+
+        return medicineService.getMedicineByGeneric(id);
+
+    }
 }

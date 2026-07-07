@@ -21,21 +21,7 @@ public class MedicineResponse {
 
     private String dosage;
 
-    private String frequency;
-
-    private String route;
-
-    private String duration;
-
-    private String applyWay;
-
-    private Integer quantity;
-
-    private LocalDate startDate;
-
-    private String instructions;
-
-    private boolean isActive;
+    private Long genericId;
 
     private Long prescriptionId;
 }
