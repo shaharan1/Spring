@@ -19,7 +19,9 @@ public interface AppointmentService {
     List<AppointmentResponse> getAllAppointments();
     AppointmentResponse getAppointmentById(Long id);
 
-    
+    AppointmentResponse getByAppointmentNumber(String appointmentNumber);
+
+
 
 
 

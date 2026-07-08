@@ -169,6 +169,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     }
 
+    @Override
+    public AppointmentResponse getByAppointmentNumber(String appointmentNumber) {
+        Appointment appointment = appointmentRepository
+                .findByAppointmentNumber(appointmentNumber)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        return appointmentMapper.toResponse(appointment);    }
+
     //    --------------Filter Appointments---------------
 @Override
 @Transactional(readOnly = true)

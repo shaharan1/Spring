@@ -100,13 +100,11 @@ public ResponseEntity<List<AppointmentResponse>> filterAppointments(
 
 
     @GetMapping("/number/{appointmentNumber}")
-    public ResponseEntity<Appointment> getByAppointmentNumber(
+    public ResponseEntity<AppointmentResponse> getByAppointmentNumber(
             @PathVariable String appointmentNumber) {
 
-        Appointment appointment = appointmentRepository
-                .findByAppointmentNumber(appointmentNumber)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
-
-        return ResponseEntity.ok(appointment);
+        return ResponseEntity.ok(
+                appointmentService.getByAppointmentNumber(appointmentNumber)
+        );
     }
 }

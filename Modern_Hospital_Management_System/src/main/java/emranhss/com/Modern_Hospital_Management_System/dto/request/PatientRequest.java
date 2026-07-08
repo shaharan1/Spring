@@ -1,5 +1,6 @@
 package emranhss.com.Modern_Hospital_Management_System.dto.request;
 
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class PatientRequest {
     private String maritalStatus;
     private String phone;
     private String alternatePhone;
+    @Email
     private String email;
     private String nationalId;
     private String address;

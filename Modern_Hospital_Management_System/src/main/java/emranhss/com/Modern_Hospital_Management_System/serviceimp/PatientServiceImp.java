@@ -29,6 +29,11 @@ public class PatientServiceImp implements PatientService {
     @Override
     public PatientResponse createPatient(PatientRequest request) {
 
+        if (request.getEmail() != null && request.getEmail().trim().isEmpty()) {
+            request.setEmail(null);
+        }
+
+
         Patient patient = patientMapper.toEntity(request);
 
         // Appointment থেকে Auto Fill
@@ -74,6 +79,13 @@ public class PatientServiceImp implements PatientService {
 
     @Override
     public PatientResponse updatePatient(Long id, PatientRequest request) {
+
+        
+        if (request.getEmail() != null && request.getEmail().trim().isEmpty()) {
+            request.setEmail(null);
+        }
+
+
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
         patientMapper.updateEntityFromRequest(request, patient);
