@@ -25,7 +25,7 @@ public class Medicine {
     @JoinColumn(name = "generic_id")
     private Generic generic;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "prescription_id", nullable = false )
+//    private Prescription prescription;
 }

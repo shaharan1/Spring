@@ -20,7 +20,7 @@ public class MedicineMapper {
         medicine.setMedicineName(request.getMedicineName());
         medicine.setGeneric(generic);
         medicine.setDosage(request.getDosage());
-        medicine.setPrescription(prescription);
+//        medicine.setPrescription(prescription);
 
         return medicine;
 
@@ -34,7 +34,7 @@ public class MedicineMapper {
         medicine.setMedicineName(request.getMedicineName());
         medicine.setGeneric(generic);
         medicine.setDosage(request.getDosage());
-        medicine.setPrescription(prescription);
+//        medicine.setPrescription(prescription);
     }
 
     public MedicineResponse toResponse(Medicine medicine) {
@@ -51,9 +51,9 @@ public class MedicineMapper {
 
         response.setDosage(medicine.getDosage());
 
-        if (medicine.getPrescription() != null) {
-            response.setPrescriptionId(medicine.getPrescription().getId());
-        }
+//        if (medicine.getPrescription() != null) {
+//            response.setPrescriptionId(medicine.getPrescription().getId());
+//        }
 
         return response;
     }

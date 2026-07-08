@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/generics")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class GenericController {
 
     private final GenericService genericService;

@@ -14,7 +14,7 @@ public interface MedicineService {
 
     List<MedicineResponse> getAll();
 
-    List<MedicineResponse> getByPrescriptionId(Long prescriptionId);
+//    List<MedicineResponse> getByPrescriptionId(Long prescriptionId);
 
     MedicineResponse update(Long id, MedicineRequest request);
 

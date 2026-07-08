@@ -34,10 +34,10 @@ public class MedicineController {
         return ResponseEntity.ok(medicineService.getAll());
     }
 
-    @GetMapping("/by-prescription/{prescriptionId}")
-    public ResponseEntity<List<MedicineResponse>> getByPrescriptionId(@PathVariable Long prescriptionId) {
-        return ResponseEntity.ok(medicineService.getByPrescriptionId(prescriptionId));
-    }
+//    @GetMapping("/by-prescription/{prescriptionId}")
+//    public ResponseEntity<List<MedicineResponse>> getByPrescriptionId(@PathVariable Long prescriptionId) {
+//        return ResponseEntity.ok(medicineService.getByPrescriptionId(prescriptionId));
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<MedicineResponse> update(@PathVariable Long id,

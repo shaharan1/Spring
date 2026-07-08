@@ -68,13 +68,13 @@ public class MedicineServiceImp implements MedicineService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<MedicineResponse> getByPrescriptionId(Long prescriptionId) {
-        return medicineRepository.findByPrescriptionId(prescriptionId)
-                .stream()
-                .map(medicineMapper::toResponse)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<MedicineResponse> getByPrescriptionId(Long prescriptionId) {
+//        return medicineRepository.findByPrescriptionId(prescriptionId)
+//                .stream()
+//                .map(medicineMapper::toResponse)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public MedicineResponse update(Long id, MedicineRequest request) {
