@@ -23,7 +23,7 @@ public class AdmissionMapper {
         if (admittedPatient.getPatient() != null) {
             resp.setPatientId(admittedPatient.getPatient().getId());
             resp.setPatientCode(admittedPatient.getPatient().getPatientCode());
-            resp.setPatientName(admittedPatient.getPatient().getFirstName() + " " + admittedPatient.getPatient().getLastName());
+            resp.setPatientName(admittedPatient.getPatient().getName() + " " + admittedPatient.getPatient());
         }
 
         if (admittedPatient.getPrimaryDoctor() != null) {

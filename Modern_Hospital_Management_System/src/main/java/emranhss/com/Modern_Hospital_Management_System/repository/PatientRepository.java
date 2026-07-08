@@ -14,4 +14,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     // Automatically creates: SELECT * FROM patients WHERE phone = ?
     Optional<Patient> findByPhone(String phone);
+    Patient findTopByOrderByIdDesc();
 }

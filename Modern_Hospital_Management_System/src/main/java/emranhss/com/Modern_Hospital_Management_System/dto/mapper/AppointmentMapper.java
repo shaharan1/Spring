@@ -38,7 +38,7 @@ public class AppointmentMapper {
         if (appointment.getPatient() != null) {
             response.setRegisteredPatientId(appointment.getPatient().getId());
             // Overwrite with full name if profile exists
-            response.setPatientName(appointment.getPatient().getFirstName() + " " + appointment.getPatient().getLastName());
+            response.setPatientName(appointment.getPatient().getName() + " " + appointment.getPatient());
             response.setMobileNumber(appointment.getPatient().getPhone());
         }
 

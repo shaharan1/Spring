@@ -31,7 +31,7 @@ public class PrescriptionMapper {
         }
 
         if (prescription.getPatient() != null) {
-            response.setPatientName(prescription.getPatient().getFirstName() + " " + prescription.getPatient().getLastName());
+            response.setPatientName(prescription.getPatient().getName() + " " + prescription.getPatient());
             if (prescription.getPatient().getDateOfBirth() != null) {
                 int age = Period.between(prescription.getPatient().getDateOfBirth(), LocalDate.now()).getYears();
                 response.setPatientAge(age + " Years");

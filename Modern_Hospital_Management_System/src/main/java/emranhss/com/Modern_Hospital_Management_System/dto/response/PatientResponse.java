@@ -14,11 +14,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PatientResponse {
 
-
     private Long id;
     private String patientCode;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String gender;
     private LocalDate dateOfBirth;
     private String bloodGroup;
@@ -34,5 +32,5 @@ public class PatientResponse {
     private String emergencyContactName;
     private String emergencyContactNumber;
     private String relationship;
-    private Boolean active;
+
 }

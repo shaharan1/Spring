@@ -60,7 +60,7 @@ public class DoctorChargeMapper {
             response.setAdmittedPatientId(charge.getAdmittedPatient().getId());
             response.setAdmissionStatus(charge.getAdmittedPatient().getAdmissionStatus());
             if (charge.getAdmittedPatient().getPatient() != null) {
-                response.setPatientName(charge.getAdmittedPatient().getPatient().getFirstName());
+                response.setPatientName(charge.getAdmittedPatient().getPatient().getName());
             }
         }
 

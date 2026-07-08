@@ -25,8 +25,8 @@ public class OthersChargeMapper {
         if (charge.getAdmittedPatient() != null) {
             resp.setAdmittedPatientId(charge.getAdmittedPatient().getId());
             if (charge.getAdmittedPatient().getPatient() != null) {
-                resp.setPatientName(charge.getAdmittedPatient().getPatient().getFirstName() + " " +
-                        charge.getAdmittedPatient().getPatient().getLastName());
+                resp.setPatientName(charge.getAdmittedPatient().getPatient().getName() + " " +
+                        charge.getAdmittedPatient().getPatient());
             }
         }
 

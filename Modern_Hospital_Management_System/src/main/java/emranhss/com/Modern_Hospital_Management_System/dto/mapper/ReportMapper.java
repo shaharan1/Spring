@@ -41,7 +41,7 @@ public class ReportMapper {
         if (report.getPatient() != null) {
             response.setPatientId(report.getPatient().getId());
             response.setPatientCode(report.getPatient().getPatientCode());
-            response.setPatientFullName(report.getPatient().getFirstName() + " " + report.getPatient().getLastName());
+            response.setPatientFullName(report.getPatient().getName());
             response.setPatientPhone(report.getPatient().getPhone());
             response.setPatientGender(report.getPatient().getGender());
             response.setPatientBloodGroup(report.getPatient().getBloodGroup());

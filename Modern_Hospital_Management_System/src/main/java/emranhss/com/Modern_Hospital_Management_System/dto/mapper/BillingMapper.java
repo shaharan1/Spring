@@ -17,8 +17,8 @@ public class BillingMapper {
         if (billing.getAdmittedPatient() != null) {
             resp.setAdmittedPatientId(billing.getAdmittedPatient().getId());
             if (billing.getAdmittedPatient().getPatient() != null) {
-                resp.setPatientName(billing.getAdmittedPatient().getPatient().getFirstName() + " " +
-                        billing.getAdmittedPatient().getPatient().getLastName());
+                resp.setPatientName(billing.getAdmittedPatient().getPatient().getName() + " " +
+                        billing.getAdmittedPatient());
                 resp.setPatientCode(billing.getAdmittedPatient().getPatient().getPatientCode());
             }
         }

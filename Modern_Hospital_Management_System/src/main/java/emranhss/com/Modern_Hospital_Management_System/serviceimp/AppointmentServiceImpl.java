@@ -53,7 +53,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             Patient patient = patientRepository.findById(request.getPatientId())
                     .orElseThrow(() -> new ResourceNotFoundException("Patient profile not found."));
             appointment.setPatient(patient);
-            appointment.setPatientName(patient.getFirstName() + " " + patient.getLastName());
+            appointment.setPatientName(patient.getName());
             appointment.setMobileNumber(patient.getPhone());
         } else {
             appointment.setPatientName(request.getPatientName());

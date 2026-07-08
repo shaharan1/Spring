@@ -14,8 +14,7 @@ public class PatientRequest {
 
 
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String gender;
     private LocalDate dateOfBirth;
     private String bloodGroup;
@@ -31,5 +30,7 @@ public class PatientRequest {
     private String emergencyContactName;
     private String emergencyContactNumber;
     private String relationship;
-    private Boolean active;
+
+
+
 }

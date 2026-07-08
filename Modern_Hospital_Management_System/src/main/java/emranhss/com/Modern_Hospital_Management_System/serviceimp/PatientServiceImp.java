@@ -21,15 +21,12 @@ public class PatientServiceImp implements PatientService {
 
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
-    private final PatientCodeGenerator codeGenerator;
-
-
 
 
     @Override
     public PatientResponse createPatient(PatientRequest request) {
         Patient patient = patientMapper.toEntity(request);
-        patient.setPatientCode(codeGenerator.generateCode());
+        patient.setPatientCode(generatePatientCode());
         return patientMapper.toResponse(patientRepository.save(patient));
     }
 
@@ -68,4 +65,23 @@ public class PatientServiceImp implements PatientService {
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
         patientRepository.delete(patient);
     }
+
+
+    private String generatePatientCode() {
+
+        Patient lastPatient = patientRepository.findTopByOrderByIdDesc();
+
+        if (lastPatient == null || lastPatient.getPatientCode() == null) {
+            return "PAT000001";
+        }
+
+        String lastCode = lastPatient.getPatientCode(); // PAT000125
+        int number = Integer.parseInt(lastCode.substring(3));
+        number++;
+
+        return String.format("PAT%06d", number);
+    }
+
+
+
 }

@@ -22,8 +22,7 @@ public class Patient {
     @Column(unique = true, nullable = false)
     private String patientCode;
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String gender;
     private LocalDate dateOfBirth;
     private String bloodGroup;
@@ -47,5 +46,6 @@ public class Patient {
     private String emergencyContactNumber;
     private String relationship;
 
-    private Boolean active;
+
+
 }

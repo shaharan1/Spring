@@ -19,8 +19,8 @@ public class AdmitPatientInvoiceMapper {
         if (invoice.getAdmittedPatient() != null) {
             resp.setAdmittedPatientId(invoice.getAdmittedPatient().getId());
             if (invoice.getAdmittedPatient().getPatient() != null) {
-                resp.setPatientName(invoice.getAdmittedPatient().getPatient().getFirstName() + " " +
-                        invoice.getAdmittedPatient().getPatient().getLastName());
+                resp.setPatientName(invoice.getAdmittedPatient().getPatient().getName());
+
                 resp.setPatientCode(invoice.getAdmittedPatient().getPatient().getPatientCode());
             }
         }
