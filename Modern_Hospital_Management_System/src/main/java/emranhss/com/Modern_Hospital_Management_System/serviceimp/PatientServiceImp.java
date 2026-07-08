@@ -4,8 +4,10 @@ package emranhss.com.Modern_Hospital_Management_System.serviceimp;
 import emranhss.com.Modern_Hospital_Management_System.dto.mapper.PatientMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.PatientRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.PatientResponse;
+import emranhss.com.Modern_Hospital_Management_System.entity.Appointment;
 import emranhss.com.Modern_Hospital_Management_System.entity.Patient;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
+import emranhss.com.Modern_Hospital_Management_System.repository.AppointmentRepository;
 import emranhss.com.Modern_Hospital_Management_System.repository.PatientRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.PatientService;
 import emranhss.com.Modern_Hospital_Management_System.util.PatientCodeGenerator;
@@ -21,13 +23,32 @@ public class PatientServiceImp implements PatientService {
 
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
+    private final AppointmentRepository appointmentRepository;
 
 
     @Override
     public PatientResponse createPatient(PatientRequest request) {
+
         Patient patient = patientMapper.toEntity(request);
+
+        // Appointment থেকে Auto Fill
+        if (request.getAppointmentId() != null) {
+
+            Appointment appointment = appointmentRepository
+                    .findById(request.getAppointmentId())
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException("Appointment not found"));
+
+            patient.setName(appointment.getPatientName());
+            patient.setPhone(appointment.getMobileNumber());
+
+        }
+
         patient.setPatientCode(generatePatientCode());
-        return patientMapper.toResponse(patientRepository.save(patient));
+
+        Patient savedPatient = patientRepository.save(patient);
+
+        return patientMapper.toResponse(savedPatient);
     }
 
     @Override

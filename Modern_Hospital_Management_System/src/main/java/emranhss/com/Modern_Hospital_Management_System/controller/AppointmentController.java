@@ -85,4 +85,13 @@ public ResponseEntity<List<AppointmentResponse>> filterAppointments(
     );
 
 }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AppointmentResponse> getAppointmentById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                appointmentService.getAppointmentById(id)
+        );
+
+    }
 }

@@ -31,6 +31,8 @@ public class PatientRequest {
     private String emergencyContactNumber;
     private String relationship;
 
+    private Long appointmentId;
+
 
 
 }

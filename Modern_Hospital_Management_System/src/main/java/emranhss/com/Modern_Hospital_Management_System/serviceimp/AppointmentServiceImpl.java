@@ -158,7 +158,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     }
 
-//    --------------Filter Appointments---------------
+    @Override
+    public AppointmentResponse getAppointmentById(Long id) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Appointment not found with id: " + id));
+
+        return appointmentMapper.toResponse(appointment);
+
+    }
+
+    //    --------------Filter Appointments---------------
 @Override
 @Transactional(readOnly = true)
 public List<AppointmentResponse> filterAppointments(Long doctorId, LocalDate date) {

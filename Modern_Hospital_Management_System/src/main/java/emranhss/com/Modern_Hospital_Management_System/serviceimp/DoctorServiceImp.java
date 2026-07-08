@@ -13,6 +13,7 @@ import emranhss.com.Modern_Hospital_Management_System.repository.DoctorRepositor
 import emranhss.com.Modern_Hospital_Management_System.repository.UserRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.DoctorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class DoctorServiceImp implements DoctorService {
     private final DoctorMapper doctorMapper;
     private final UserRepository userRepository;
 
+    private  final PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional
     public DoctorResponse createDoctor(DoctorRequest request) {
@@ -40,7 +43,7 @@ public class DoctorServiceImp implements DoctorService {
         System.out.println(request.getEmail()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         user.setName(request.getName());
         user.setPhone(request.getPhone());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));// set password as hash code
         user.setRole(Role.Doctor);
         user.setActive(true);
 

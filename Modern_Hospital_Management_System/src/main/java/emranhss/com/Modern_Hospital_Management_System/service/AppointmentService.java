@@ -17,6 +17,7 @@ public interface AppointmentService {
     Boolean isReturningPatient(String phone);
 
     List<AppointmentResponse> getAllAppointments();
+    AppointmentResponse getAppointmentById(Long id);
 
 
 
