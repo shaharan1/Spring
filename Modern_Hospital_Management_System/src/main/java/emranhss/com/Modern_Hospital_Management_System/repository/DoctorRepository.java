@@ -16,6 +16,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     // Automatically creates a MySQL query: SELECT * FROM doctors WHERE specialization = ?
     List<Doctor> findBySpecialization(String specialization);
     List<Doctor> findByDoctorDepartmentId(Long departmentId);
-
+    Optional<Doctor> findByUserId(Long userId);
 
 }

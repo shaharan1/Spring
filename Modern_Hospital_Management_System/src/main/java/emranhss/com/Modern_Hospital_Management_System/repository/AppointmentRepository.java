@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
@@ -20,6 +21,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     boolean existsByMobileNumberAndStatus(String phone, String status);
 
-
+    Optional<Appointment> findByAppointmentNumber(String appointmentNumber);
 
 }

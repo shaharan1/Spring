@@ -2,6 +2,8 @@ package emranhss.com.Modern_Hospital_Management_System.controller;
 
 import emranhss.com.Modern_Hospital_Management_System.dto.request.AppointmentRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.AppointmentResponse;
+import emranhss.com.Modern_Hospital_Management_System.entity.Appointment;
+import emranhss.com.Modern_Hospital_Management_System.repository.AppointmentRepository;
 import emranhss.com.Modern_Hospital_Management_System.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +21,7 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final AppointmentRepository appointmentRepository;
 
     // 1. Create/Book a new Appointment
     @PostMapping
@@ -93,5 +96,17 @@ public ResponseEntity<List<AppointmentResponse>> filterAppointments(
                 appointmentService.getAppointmentById(id)
         );
 
+    }
+
+
+    @GetMapping("/number/{appointmentNumber}")
+    public ResponseEntity<Appointment> getByAppointmentNumber(
+            @PathVariable String appointmentNumber) {
+
+        Appointment appointment = appointmentRepository
+                .findByAppointmentNumber(appointmentNumber)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        return ResponseEntity.ok(appointment);
     }
 }
