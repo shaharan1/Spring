@@ -11,8 +11,11 @@ import lombok.NoArgsConstructor;
 public class PrescriptionItemRequest {
 
     private String medicineType;
-    private String medicineName;
+    private Long medicineId;
+
     private String dosage;
+
     private String duration;
+
     private String instruction;
 }

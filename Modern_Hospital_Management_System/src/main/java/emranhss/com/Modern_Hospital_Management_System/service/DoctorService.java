@@ -14,4 +14,6 @@ public interface DoctorService {
 
     // Filter doctors dynamically based on landing page choices
     List<DoctorResponse> getDoctorsByDepartment(Long departmentId);
+
+    DoctorResponse getByUserId(Long id);
 }

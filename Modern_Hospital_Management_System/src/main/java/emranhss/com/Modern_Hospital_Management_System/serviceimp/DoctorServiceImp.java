@@ -141,4 +141,14 @@ public class DoctorServiceImp implements DoctorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + id));
         doctorRepository.delete(doctor);
     }
+
+
+    @Override
+    public DoctorResponse getByUserId(Long id) {
+
+        Doctor c = doctorRepository.findByUserId(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return DoctorMapper.toDto(c);
+    }
+
 }
