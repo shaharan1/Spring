@@ -13,5 +13,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
     List<Medicine> findByGenericId(Long genericId);
 
+    List<Medicine> findByMedicineNameContainingIgnoreCase(String keyword);
+
 
 }

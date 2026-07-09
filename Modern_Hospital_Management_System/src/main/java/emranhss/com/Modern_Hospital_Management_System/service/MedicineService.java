@@ -21,4 +21,6 @@ public interface MedicineService {
     void delete(Long id);
 
     List<MedicineResponse>getMedicineByGeneric(Long Id);
+    
+    List<MedicineResponse> search(String keyword);
 }

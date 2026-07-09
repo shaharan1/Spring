@@ -57,4 +57,10 @@ public class MedicineController {
         return medicineService.getMedicineByGeneric(id);
 
     }
+
+    @GetMapping("/search")
+    public List<MedicineResponse> search(@RequestParam String keyword) {
+        return medicineService
+                .search(keyword);
+    }
 }
