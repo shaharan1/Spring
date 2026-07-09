@@ -5,10 +5,7 @@ import emranhss.com.Modern_Hospital_Management_System.dto.request.PrescriptionRe
 import emranhss.com.Modern_Hospital_Management_System.dto.response.PrescriptionResponse; // Changed from PrescriptionItemResponse
 import emranhss.com.Modern_Hospital_Management_System.entity.*;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
-import emranhss.com.Modern_Hospital_Management_System.repository.AppointmentRepository;
-import emranhss.com.Modern_Hospital_Management_System.repository.DoctorRepository;
-import emranhss.com.Modern_Hospital_Management_System.repository.PatientRepository;
-import emranhss.com.Modern_Hospital_Management_System.repository.PrescriptionRepository;
+import emranhss.com.Modern_Hospital_Management_System.repository.*;
 import emranhss.com.Modern_Hospital_Management_System.service.PrescriptionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +22,7 @@ public class PrescriptionServiceImp implements PrescriptionService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    private final MedicineRepository medicineRepository;
     private final PrescriptionMapper prescriptionMapper;
 
     @Override
@@ -57,16 +55,30 @@ public class PrescriptionServiceImp implements PrescriptionService {
         prescription.setNextFollowUpDate(request.getNextFollowUpDate());
 
         if (request.getPrescriptionItems() != null) {
-            List<PrescriptionItem> items = request.getPrescriptionItems().stream().map(itemDto -> {
-                PrescriptionItem item = new PrescriptionItem();
-                item.setPrescription(prescription);
-                item.setMedicineType(itemDto.getMedicineType());
-                item.setMedicineName(itemDto.getMedicineName());
-                item.setDosage(itemDto.getDosage());
-                item.setDuration(itemDto.getDuration());
-                item.setInstruction(itemDto.getInstruction());
-                return item;
-            }).collect(Collectors.toList());
+
+            List<PrescriptionItem> items = request.getPrescriptionItems()
+                    .stream()
+                    .map(itemDto -> {
+
+                        Medicine medicine = medicineRepository.findById(itemDto.getMedicineId())
+                                .orElseThrow(() ->
+                                        new ResourceNotFoundException(
+                                                "Medicine not found with id : " + itemDto.getMedicineId()
+                                        ));
+
+                        PrescriptionItem item = new PrescriptionItem();
+
+                        item.setPrescription(prescription);
+                        item.setMedicine(medicine);
+                        item.setDosage(itemDto.getDosage());
+                        item.setDuration(itemDto.getDuration());
+                        item.setInstruction(itemDto.getInstruction());
+
+                        return item;
+
+                    })
+                    .collect(Collectors.toList());
+
             prescription.setPrescriptionItems(items);
         }
 
