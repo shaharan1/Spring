@@ -25,6 +25,10 @@ public class PrescriptionServiceImp implements PrescriptionService {
     private final MedicineRepository medicineRepository;
     private final PrescriptionMapper prescriptionMapper;
 
+    private final TestsRepository testsRepository;
+
+    private final TestMasterRepository testMasterRepository;
+
     @Override
     @Transactional
     // FIX: Changed return type from PrescriptionItemResponse to PrescriptionResponse
@@ -82,7 +86,29 @@ public class PrescriptionServiceImp implements PrescriptionService {
             prescription.setPrescriptionItems(items);
         }
 
-        return prescriptionMapper.toResponse(prescriptionRepository.save(prescription));
+        Prescription savedPrescription = prescriptionRepository.save(prescription);
+
+        if (request.getTestIds() != null && !request.getTestIds().isEmpty()) {
+
+            for (Long testId : request.getTestIds()) {
+
+                TestMaster master = testMasterRepository.findById(testId)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException("Test not found with id: " + testId));
+
+                Tests test = new Tests();
+
+                test.setPrescription(savedPrescription);
+                test.setPatient(patient);
+                test.setPrescribedBy(doctor);
+                test.setTestMaster(master);
+                test.setOrderStatus("PENDING");
+
+                testsRepository.save(test);
+            }
+        }
+
+        return prescriptionMapper.toResponse(savedPrescription);
     }
 
     @Override

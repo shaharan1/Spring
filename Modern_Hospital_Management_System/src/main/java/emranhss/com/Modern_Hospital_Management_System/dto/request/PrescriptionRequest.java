@@ -27,4 +27,6 @@ public class PrescriptionRequest {
     private String notes;
     private LocalDate nextFollowUpDate;
     private List<PrescriptionItemRequest> prescriptionItems;
+
+    private List<Long> testIds;
 }

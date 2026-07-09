@@ -39,4 +39,9 @@ public class Tests {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime orderedDate;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prescription_id")
+    private Prescription prescription;
 }
