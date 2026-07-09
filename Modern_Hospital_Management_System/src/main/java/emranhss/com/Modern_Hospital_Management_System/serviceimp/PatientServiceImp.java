@@ -80,7 +80,7 @@ public class PatientServiceImp implements PatientService {
     @Override
     public PatientResponse updatePatient(Long id, PatientRequest request) {
 
-        
+
         if (request.getEmail() != null && request.getEmail().trim().isEmpty()) {
             request.setEmail(null);
         }
