@@ -128,6 +128,16 @@ public class MedicineServiceImp implements MedicineService {
 
     }
 
+    @Override
+    public List<MedicineResponse> search(String keyword) {
+        return medicineRepository
+                .findByMedicineNameContainingIgnoreCase(keyword)
+                .stream()
+                .map(medicineMapper::toResponse)
+                .collect(Collectors.toList());
+
+    }
+
     private Generic resolveGeneric(Long genericId) {
 
         if (genericId == null) {

@@ -61,6 +61,14 @@ public class DoctorController {
         return ResponseEntity.ok("Doctor record deleted successfully.");
     }
 
+
+
+    @GetMapping("/user/{id}")
+    public DoctorResponse getByUserId(@PathVariable Long id) {
+        return doctorService.getByUserId(id);
+    }
+
+
 //    @GetMapping("/myProfile")
 //    public ResponseEntity<Doctor> getLoggedInDoctor(Authentication authentication){
 //

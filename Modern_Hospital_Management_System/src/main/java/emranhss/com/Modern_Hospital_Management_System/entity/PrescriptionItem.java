@@ -25,13 +25,14 @@ public class PrescriptionItem {
     @Column(nullable = false)
     private String medicineType; // Tablet, Capsule, Syrup, etc.
 
-    @Column(nullable = false)
-    private String medicineName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medicine_id", nullable = false)
+    private Medicine medicine;
 
-    @Column(nullable = false)
+
     private String dosage;       // e.g., 1+0+1, 1 Spoon 3 times daily
 
-    @Column(nullable = false)
+  
     private String duration;     // e.g., 7 Days, 1 Month
 
     private String instruction;  // e.g., Before Meal, After Meal

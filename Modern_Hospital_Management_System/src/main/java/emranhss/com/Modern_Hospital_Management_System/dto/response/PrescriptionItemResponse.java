@@ -13,8 +13,14 @@ public class PrescriptionItemResponse {
 
     private Long id;
     private String medicineType;
+    
+    private Long medicineId;
+
     private String medicineName;
+
     private String dosage;
+
     private String duration;
+
     private String instruction;
 }

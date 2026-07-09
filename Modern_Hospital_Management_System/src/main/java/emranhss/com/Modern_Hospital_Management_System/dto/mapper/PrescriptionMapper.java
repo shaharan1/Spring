@@ -54,7 +54,11 @@ public class PrescriptionMapper {
                 PrescriptionItemResponse itemDto = new PrescriptionItemResponse();
                 itemDto.setId(item.getId());
                 itemDto.setMedicineType(item.getMedicineType());
-                itemDto.setMedicineName(item.getMedicineName());
+                itemDto.setMedicineId(item.getMedicine().getId());
+
+                itemDto.setMedicineName(
+                        item.getMedicine().getMedicineName()
+                );
                 itemDto.setDosage(item.getDosage());
                 itemDto.setDuration(item.getDuration());
                 itemDto.setInstruction(item.getInstruction());
