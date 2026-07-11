@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PrescriptionItemRequest {
 
-    private String medicineType;
+
     private Long medicineId;
 
     private String dosage;

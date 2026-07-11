@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PrescriptionItem {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +21,7 @@ public class PrescriptionItem {
     @JoinColumn(name = "prescription_id", nullable = false)
     private Prescription prescription;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String medicineType; // Tablet, Capsule, Syrup, etc.
 
     @ManyToOne(fetch = FetchType.LAZY)

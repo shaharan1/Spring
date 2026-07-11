@@ -2,7 +2,7 @@ package emranhss.com.Modern_Hospital_Management_System.serviceimp;
 
 import emranhss.com.Modern_Hospital_Management_System.dto.mapper.PrescriptionMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.PrescriptionRequest;
-import emranhss.com.Modern_Hospital_Management_System.dto.response.PrescriptionResponse; // Changed from PrescriptionItemResponse
+import emranhss.com.Modern_Hospital_Management_System.dto.response.PrescriptionResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.*;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
 import emranhss.com.Modern_Hospital_Management_System.repository.*;
@@ -24,16 +24,12 @@ public class PrescriptionServiceImp implements PrescriptionService {
     private final PatientRepository patientRepository;
     private final MedicineRepository medicineRepository;
     private final PrescriptionMapper prescriptionMapper;
-
     private final TestsRepository testsRepository;
-
     private final TestMasterRepository testMasterRepository;
 
     @Override
     @Transactional
-    // FIX: Changed return type from PrescriptionItemResponse to PrescriptionResponse
     public PrescriptionResponse createPrescription(PrescriptionRequest request) {
-
 
         Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + request.getAppointmentId()));
@@ -58,26 +54,19 @@ public class PrescriptionServiceImp implements PrescriptionService {
         prescription.setNotes(request.getNotes());
         prescription.setNextFollowUpDate(request.getNextFollowUpDate());
 
+        // Process and map prescription items (medicines)
         if (request.getPrescriptionItems() != null) {
-
-            List<PrescriptionItem> items = request.getPrescriptionItems()
-                    .stream()
+            List<PrescriptionItem> items = request.getPrescriptionItems().stream()
                     .map(itemDto -> {
-
                         Medicine medicine = medicineRepository.findById(itemDto.getMedicineId())
-                                .orElseThrow(() ->
-                                        new ResourceNotFoundException(
-                                                "Medicine not found with id : " + itemDto.getMedicineId()
-                                        ));
+                                .orElseThrow(() -> new ResourceNotFoundException("Medicine not found with id: " + itemDto.getMedicineId()));
 
                         PrescriptionItem item = new PrescriptionItem();
-
                         item.setPrescription(prescription);
                         item.setMedicine(medicine);
                         item.setDosage(itemDto.getDosage());
                         item.setDuration(itemDto.getDuration());
                         item.setInstruction(itemDto.getInstruction());
-
                         return item;
 
                     })
@@ -86,26 +75,27 @@ public class PrescriptionServiceImp implements PrescriptionService {
             prescription.setPrescriptionItems(items);
         }
 
+        // Save prescription entity first
         Prescription savedPrescription = prescriptionRepository.save(prescription);
 
+        // Process and assign laboratory tests
         if (request.getTestIds() != null && !request.getTestIds().isEmpty()) {
+            List<Tests> assignedTests = request.getTestIds().stream()
+                    .map(testId -> {
+                        TestMaster master = testMasterRepository.findById(testId)
+                                .orElseThrow(() -> new ResourceNotFoundException("Test not found with id: " + testId));
 
-            for (Long testId : request.getTestIds()) {
+                        Tests test = new Tests();
+                        test.setPrescription(savedPrescription);
+                        test.setPatient(patient);
+                        test.setPrescribedBy(doctor);
+                        test.setTestMaster(master);
+                        test.setOrderStatus("PENDING");
+                        return test;
+                    })
+                    .collect(Collectors.toList());
 
-                TestMaster master = testMasterRepository.findById(testId)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException("Test not found with id: " + testId));
-
-                Tests test = new Tests();
-
-                test.setPrescription(savedPrescription);
-                test.setPatient(patient);
-                test.setPrescribedBy(doctor);
-                test.setTestMaster(master);
-                test.setOrderStatus("PENDING");
-
-                testsRepository.save(test);
-            }
+            testsRepository.saveAll(assignedTests); // Batch save optimized performance
         }
 
         return prescriptionMapper.toResponse(savedPrescription);
