@@ -1,5 +1,8 @@
 package emranhss.com.Modern_Hospital_Management_System.serviceimp;
 
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
 import emranhss.com.Modern_Hospital_Management_System.dto.mapper.PrescriptionMapper;
 import emranhss.com.Modern_Hospital_Management_System.dto.request.PrescriptionRequest;
 import emranhss.com.Modern_Hospital_Management_System.dto.response.PrescriptionResponse;
@@ -11,6 +14,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import com.itextpdf.text.pdf.PdfWriter;
+
+
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -114,4 +121,90 @@ public class PrescriptionServiceImp implements PrescriptionService {
                 .map(prescriptionMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+
+
+
+    @Override
+    public byte[] generatePdf(Long id) {
+
+        Prescription prescription = prescriptionRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Prescription not found"));
+
+        try {
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            Document document = new Document();
+
+            PdfWriter.getInstance(document, out);
+
+            document.open();
+
+            document.add(new Paragraph("Modern Hospital Management System"));
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("Prescription"));
+            document.add(new Paragraph("-----------------------------------------"));
+
+            document.add(new Paragraph("Patient Name : " +
+                    prescription.getPatient().getName()));
+
+            document.add(new Paragraph("Doctor : " +
+                    prescription.getDoctor().getUser().getName()));
+
+            document.add(new Paragraph("Diagnosis : " +
+                    prescription.getDiagnosis()));
+
+            document.add(new Paragraph("Symptoms : " +
+                    prescription.getSymptoms()));
+
+            document.add(new Paragraph("Blood Pressure : " +
+                    prescription.getBloodPressure()));
+
+            document.add(new Paragraph("Pulse Rate : " +
+                    prescription.getPulseRate()));
+
+            document.add(new Paragraph("Temperature : " +
+                    prescription.getBodyTemperature()));
+
+            document.add(new Paragraph("Weight : " +
+                    prescription.getWeight()));
+
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("Medicines"));
+            document.add(new Paragraph("-----------------------------------------"));
+
+            for (PrescriptionItem item : prescription.getPrescriptionItems()) {
+
+                document.add(new Paragraph(
+                        item.getMedicine().getMedicineName()
+                                + " | "
+                                + item.getDosage()
+                                + " | "
+                                + item.getDuration()
+                                + " | "
+                                + item.getInstruction()
+                ));
+
+            }
+
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("Notes"));
+            document.add(new Paragraph(
+                    prescription.getNotes() == null ? "" : prescription.getNotes()));
+
+            document.close();
+
+            return out.toByteArray();
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+
+        }
+    }
+
+
+
 }

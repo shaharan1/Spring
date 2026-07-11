@@ -38,8 +38,7 @@ public class AppointmentMapper {
         if (appointment.getPatient() != null) {
             response.setRegisteredPatientId(appointment.getPatient().getId());
             // Overwrite with full name if profile exists
-            response.setPatientName(appointment.getPatient().getName() + " " + appointment.getPatient());
-            response.setMobileNumber(appointment.getPatient().getPhone());
+            response.setPatientName(appointment.getPatient().getName());
         }
 
         // Map core assigned doctor entity context safely

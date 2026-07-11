@@ -10,6 +10,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentResponse {
+
+
     private Long id;
     private String appointmentNumber;
     private String status;
