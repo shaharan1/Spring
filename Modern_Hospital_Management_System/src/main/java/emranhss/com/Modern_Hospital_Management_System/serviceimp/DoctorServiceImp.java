@@ -113,7 +113,7 @@ public class DoctorServiceImp implements DoctorService {
         doctor.getUser().setPhone(request.getPhone());
 
         if(request.getPassword()!=null){
-            doctor.getUser().setPassword(request.getPassword());
+            doctor.getUser().setPassword(passwordEncoder.encode(request.getPassword()));
         }
 
         DoctorDepartment department =

@@ -32,4 +32,17 @@ public class PrescriptionResponse {
     private LocalDate nextFollowUpDate;
     private LocalDateTime createdDate;
     private List<PrescriptionItemResponse> prescriptionItems;
+
+
+    private String doctorPhoto;
+    private String doctorDesignation;
+    private String doctorDepartment;
+
+    private String patientGender;
+    private String patientPhone;
+    private String patientBloodGroup;
+
+    private List<TestMasterResponse> tests;
+
+    private String prescriptionNumber;
 }

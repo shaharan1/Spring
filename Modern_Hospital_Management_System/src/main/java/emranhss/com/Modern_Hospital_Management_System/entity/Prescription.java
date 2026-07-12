@@ -63,4 +63,9 @@ public class Prescription {
 
     @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PrescriptionItem> prescriptionItems = new ArrayList<>();
+
+    @Column(unique = true)
+    private String prescriptionNumber;
+
+
 }

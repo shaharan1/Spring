@@ -33,4 +33,5 @@ public class PatientResponse {
     private String emergencyContactNumber;
     private String relationship;
 
+
 }
