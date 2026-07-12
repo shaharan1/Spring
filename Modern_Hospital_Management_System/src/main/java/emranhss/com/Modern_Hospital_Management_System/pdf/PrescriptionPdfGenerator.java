@@ -1,6 +1,7 @@
 package emranhss.com.Modern_Hospital_Management_System.pdf;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import emranhss.com.Modern_Hospital_Management_System.entity.Prescription;
 import emranhss.com.Modern_Hospital_Management_System.entity.Tests;
@@ -10,123 +11,111 @@ import java.util.List;
 
 public class PrescriptionPdfGenerator {
 
-    /**
-     * Main PDF Generate Method
-     */
-    public byte[] generate(
+    public static byte[] generate(
+
             Prescription prescription,
+
             List<Tests> tests
-    ){
 
-        try{
+    ) {
 
-            // ===========================================
-            // Create Memory Stream
-            // ===========================================
+        try {
 
-            ByteArrayOutputStream out =
-                    new ByteArrayOutputStream();
+            //==========================================================
+            // Create PDF Stream
+            //==========================================================
 
-            // ===========================================
-            // Create A4 Document
-            // ===========================================
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            //==========================================================
+            // A4 Page
+            //==========================================================
 
             Document document =
-                    new Document(
-                            PageSize.A4,
-                            25,
-                            25,
-                            25,
-                            25
-                    );
-
-            // ===========================================
-            // Attach Writer
-            // ===========================================
+                    new Document(PageSize.A4,25,25,25,25);
 
             PdfWriter.getInstance(document,out);
 
-            // ===========================================
-            // Open PDF
-            // ===========================================
-
             document.open();
 
-            // *******************************************
-            // Header
-            // *******************************************
+            //==========================================================
+            // 1. Hospital Header
+            //==========================================================
 
             PdfHeader.add(document);
 
-            // *******************************************
-            // Patient Section
-            // *******************************************
+            //==========================================================
+            // 2. Patient Section
+            //==========================================================
 
             PdfPatientSection.add(
                     document,
                     prescription
             );
 
-            // *******************************************
-            // Doctor Section
-            // *******************************************
+            //==========================================================
+            // 3. Doctor Section
+            //==========================================================
 
             PdfDoctorSection.add(
                     document,
                     prescription
             );
 
-            // *******************************************
-            // Vital Section
-            // *******************************************
+            //==========================================================
+            // 4. Vital Section
+            //==========================================================
 
             PdfVitalSection.add(
                     document,
                     prescription
             );
 
-            // *******************************************
-            // Medicine Table
-            // *******************************************
+            //==========================================================
+            // 5. Medicine Table
+            //==========================================================
 
             PdfMedicineTable.add(
                     document,
                     prescription
             );
 
-            // *******************************************
-            // Test Table
-            // *******************************************
+            //==========================================================
+            // 6. Laboratory Tests
+            //==========================================================
 
             PdfTestTable.add(
                     document,
                     tests
             );
 
-            // *******************************************
-            // Advice
-            // *******************************************
+            //==========================================================
+            // 7. Advice Section
+            //==========================================================
 
             PdfAdviceSection.add(
                     document,
                     prescription
             );
 
-            // *******************************************
-            // Footer
-            // *******************************************
+            //==========================================================
+            // 8. Footer
+            //==========================================================
 
             PdfFooter.add(
                     document,
                     prescription
             );
 
+            //==========================================================
+            // Finish PDF
+            //==========================================================
+
             document.close();
 
             return out.toByteArray();
 
         }
-
         catch (Exception e){
 
             throw new RuntimeException(e);
