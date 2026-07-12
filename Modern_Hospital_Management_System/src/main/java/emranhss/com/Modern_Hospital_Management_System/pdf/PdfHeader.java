@@ -20,19 +20,19 @@ public class PdfHeader {
                 "src/main/resources/static/images/logo/elite_care_hospital_Logo.png"
         );
 
-        logo.scaleAbsolute(90,90);
+        logo.scaleAbsolute(90, 90);
 
         // =====================================================
-        // Header Table
+        // Header Table (3 Columns)
         // =====================================================
 
-        PdfPTable table = new PdfPTable(2);
+        PdfPTable header = new PdfPTable(3);
 
-        table.setWidthPercentage(100);
+        header.setWidthPercentage(100);
 
-        table.setWidths(new float[]{1,4});
+        header.setWidths(new float[]{1.3f, 5f, 1.5f});
 
-        table.setSpacingAfter(15);
+        header.setSpacingAfter(15);
 
         // =====================================================
         // Logo Cell
@@ -46,17 +46,11 @@ public class PdfHeader {
 
         logoCell.addElement(logo);
 
-        table.addCell(logoCell);
+        header.addCell(logoCell);
 
         // =====================================================
         // Hospital Information
         // =====================================================
-
-        PdfPCell infoCell = new PdfPCell();
-
-        infoCell.setBorder(Rectangle.NO_BORDER);
-
-        infoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 
         Paragraph hospital =
                 new Paragraph(
@@ -95,16 +89,52 @@ public class PdfHeader {
 
         title.setSpacingBefore(5);
 
+        PdfPCell infoCell = new PdfPCell();
+
+        infoCell.setBorder(Rectangle.NO_BORDER);
+
+        infoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
         infoCell.addElement(hospital);
+
         infoCell.addElement(address);
+
         infoCell.addElement(phone);
+
         infoCell.addElement(email);
+
         infoCell.addElement(line);
+
         infoCell.addElement(title);
 
-        table.addCell(infoCell);
+        header.addCell(infoCell);
 
-        document.add(table);
+        // =====================================================
+        // Doctor Photo Cell (Temporary Empty)
+        // =====================================================
+
+        PdfPCell doctorPhotoCell = new PdfPCell();
+
+        doctorPhotoCell.setBorder(Rectangle.NO_BORDER);
+
+        doctorPhotoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+        doctorPhotoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+        doctorPhotoCell.addElement(
+                new Paragraph(
+                        "Doctor Photo",
+                        PdfStyle.VALUE_FONT
+                )
+        );
+
+        header.addCell(doctorPhotoCell);
+
+        // =====================================================
+        // Add Header to Document
+        // =====================================================
+
+        document.add(header);
 
     }
 
