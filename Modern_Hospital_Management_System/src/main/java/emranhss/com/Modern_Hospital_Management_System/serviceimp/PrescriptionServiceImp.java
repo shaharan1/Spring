@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.pdf.PdfWriter;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.time.format.DateTimeFormatter;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -136,73 +139,427 @@ public class PrescriptionServiceImp implements PrescriptionService {
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-            Document document = new Document();
+            Document document = new Document(PageSize.A4,25,25,25,25);
 
-            PdfWriter.getInstance(document, out);
+            PdfWriter.getInstance(document,out);
 
             document.open();
 
-            document.add(new Paragraph("Modern Hospital Management System"));
-            document.add(new Paragraph(" "));
-            document.add(new Paragraph("Prescription"));
-            document.add(new Paragraph("-----------------------------------------"));
+            Font hospitalFont =
+                    new Font(Font.FontFamily.HELVETICA,22,Font.BOLD,BaseColor.BLUE);
 
-            document.add(new Paragraph("Patient Name : " +
-                    prescription.getPatient().getName()));
+            Font titleFont =
+                    new Font(Font.FontFamily.HELVETICA,16,Font.BOLD,BaseColor.DARK_GRAY);
 
-            document.add(new Paragraph("Doctor : " +
-                    prescription.getDoctor().getUser().getName()));
+            Font sectionFont =
+                    new Font(Font.FontFamily.HELVETICA,13,Font.BOLD,BaseColor.WHITE);
 
-            document.add(new Paragraph("Diagnosis : " +
-                    prescription.getDiagnosis()));
+            Font labelFont =
+                    new Font(Font.FontFamily.HELVETICA,10,Font.BOLD);
 
-            document.add(new Paragraph("Symptoms : " +
-                    prescription.getSymptoms()));
+            Font valueFont =
+                    new Font(Font.FontFamily.HELVETICA,10);
 
-            document.add(new Paragraph("Blood Pressure : " +
-                    prescription.getBloodPressure()));
+//            Image logo = Image.getInstance("src/main/resources/static/logo.png");
+//
+//            logo.scaleAbsolute(70,70);
 
-            document.add(new Paragraph("Pulse Rate : " +
-                    prescription.getPulseRate()));
 
-            document.add(new Paragraph("Temperature : " +
-                    prescription.getBodyTemperature()));
+            PdfPTable header = new PdfPTable(2);
 
-            document.add(new Paragraph("Weight : " +
-                    prescription.getWeight()));
+            header.setWidthPercentage(100);
 
-            document.add(new Paragraph(" "));
-            document.add(new Paragraph("Medicines"));
-            document.add(new Paragraph("-----------------------------------------"));
+            header.setWidths(new int[]{1,4});
 
-            for (PrescriptionItem item : prescription.getPrescriptionItems()) {
+            PdfPCell logoCell = new PdfPCell();
 
-                document.add(new Paragraph(
-                        item.getMedicine().getMedicineName()
-                                + " | "
-                                + item.getDosage()
-                                + " | "
-                                + item.getDuration()
-                                + " | "
-                                + item.getInstruction()
-                ));
+            logoCell.setBorder(Rectangle.NO_BORDER);
+
+            logoCell.addElement(logo);
+
+            header.addCell(logoCell);
+
+            PdfPCell infoCell = new PdfPCell();
+
+            infoCell.setBorder(Rectangle.NO_BORDER);
+
+            Paragraph hospital =
+                    new Paragraph("MODERN HOSPITAL MANAGEMENT SYSTEM",hospitalFont);
+
+            hospital.setAlignment(Element.ALIGN_CENTER);
+
+            infoCell.addElement(hospital);
+
+            Paragraph address =
+                    new Paragraph(
+                            "Dhaka, Bangladesh\nPhone : 017XXXXXXXX\nEmail : info@hospital.com",
+                            valueFont);
+
+            address.setAlignment(Element.ALIGN_CENTER);
+
+            infoCell.addElement(address);
+
+            header.addCell(infoCell);
+
+            document.add(header);
+
+            LineSeparator ls = new LineSeparator();
+
+            ls.setLineColor(BaseColor.BLUE);
+
+            document.add(new Chunk(ls));
+
+            Paragraph title =
+                    new Paragraph("MEDICAL PRESCRIPTION",titleFont);
+
+            title.setAlignment(Element.ALIGN_CENTER);
+
+            title.setSpacingBefore(10);
+
+            title.setSpacingAfter(15);
+
+            document.add(title);
+
+            PdfPTable infoTable = new PdfPTable(2);
+
+            infoTable.setWidthPercentage(100);
+
+            infoTable.setSpacingAfter(15);
+
+            PdfPCell left = new PdfPCell();
+
+            left.setPadding(10);
+
+            left.addElement(new Paragraph(
+                    "Patient Information",
+                    titleFont));
+
+            left.addElement(new Paragraph(
+                    "Name : "
+                            + prescription.getPatient().getName(),
+                    valueFont));
+
+            left.addElement(new Paragraph(
+                    "Phone : "
+                            + prescription.getPatient().getPhone(),
+                    valueFont));
+
+            left.addElement(new Paragraph(
+                    "Gender : "
+                            + prescription.getPatient().getGender(),
+                    valueFont));
+
+            left.addElement(new Paragraph(
+                    "Blood Group : "
+                            + prescription.getPatient().getBloodGroup(),
+                    valueFont));
+
+            infoTable.addCell(left);
+
+            PdfPCell right = new PdfPCell();
+
+            right.setPadding(10);
+
+            right.addElement(new Paragraph(
+                    "Doctor Information",
+                    titleFont));
+
+            right.addElement(new Paragraph(
+                    "Dr. "
+                            + prescription.getDoctor().getUser().getName(),
+                    valueFont));
+
+            right.addElement(new Paragraph(
+                    prescription.getDoctor().getSpecialization(),
+                    valueFont));
+
+            right.addElement(new Paragraph(
+                    "Consultation Fee : "
+                            + prescription.getDoctor().getConsultationFee(),
+                    valueFont));
+
+            right.addElement(new Paragraph(
+                    prescription.getCreatedDate()
+                            .format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                    valueFont));
+
+            infoTable.addCell(right);
+
+            document.add(infoTable);
+
+            PdfPTable vital = new PdfPTable(4);
+
+            vital.setWidthPercentage(100);
+
+            vital.setSpacingAfter(15);
+
+            String[] headers = {
+
+                    "Blood Pressure",
+
+                    "Pulse",
+
+                    "Temperature",
+
+                    "Weight"
+
+            };
+
+            for(String h:headers){
+
+                PdfPCell cell =
+                        new PdfPCell(new Phrase(h,sectionFont));
+
+                cell.setBackgroundColor(BaseColor.BLUE);
+
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                cell.setPadding(8);
+
+                vital.addCell(cell);
 
             }
 
-            document.add(new Paragraph(" "));
-            document.add(new Paragraph("Notes"));
-            document.add(new Paragraph(
-                    prescription.getNotes() == null ? "" : prescription.getNotes()));
+            vital.addCell(prescription.getBloodPressure());
 
-            document.close();
+            vital.addCell(prescription.getPulseRate());
 
-            return out.toByteArray();
+            vital.addCell(prescription.getBodyTemperature());
 
-        } catch (Exception e) {
+            vital.addCell(prescription.getWeight());
 
-            throw new RuntimeException(e);
+            document.add(vital);
 
-        }
+            PdfPTable diagnosis = new PdfPTable(1);
+
+            diagnosis.setWidthPercentage(100);
+
+            PdfPCell cell = new PdfPCell();
+
+            cell.setPadding(10);
+
+            cell.addElement(new Paragraph(
+                    "Diagnosis",
+                    titleFont));
+
+            cell.addElement(new Paragraph(
+                    prescription.getDiagnosis(),
+                    valueFont));
+
+            cell.addElement(new Paragraph(""));
+
+            cell.addElement(new Paragraph(
+                    "Chief Complaints",
+                    titleFont));
+
+            cell.addElement(new Paragraph(
+                    prescription.getChiefComplaints(),
+                    valueFont));
+
+            cell.addElement(new Paragraph(""));
+
+            cell.addElement(new Paragraph(
+                    "Symptoms",
+                    titleFont));
+
+            cell.addElement(new Paragraph(
+                    prescription.getSymptoms(),
+                    valueFont));
+
+            diagnosis.addCell(cell);
+
+            document.add(diagnosis);
+
+            Paragraph medicineTitle = new Paragraph("PRESCRIBED MEDICINES", titleFont);
+            medicineTitle.setSpacingBefore(15);
+            medicineTitle.setSpacingAfter(8);
+            document.add(medicineTitle);
+
+            PdfPTable medicineTable = new PdfPTable(5);
+
+            medicineTable.setWidthPercentage(100);
+
+            medicineTable.setWidths(new float[]{1f,4f,2f,2f,3f});
+
+            medicineTable.setSpacingAfter(20);
+
+            String[] medicineHeaders = {
+
+                    "#",
+
+                    "Medicine",
+
+                    "Dose",
+
+                    "Duration",
+
+                    "Instruction"
+
+            };
+
+            for(String h : medicineHeaders){
+
+                PdfPCell cell = new PdfPCell(new Phrase(h, sectionFont));
+
+                cell.setBackgroundColor(new BaseColor(33,150,243));
+
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                cell.setPadding(8);
+
+                medicineTable.addCell(cell);
+
+            }
+
+            int serial = 1;
+
+            for(PrescriptionItem item : prescription.getPrescriptionItems()){
+
+                medicineTable.addCell(String.valueOf(serial++));
+
+                medicineTable.addCell(item.getMedicine().getMedicineName());
+
+                medicineTable.addCell(item.getDosage());
+
+                medicineTable.addCell(item.getDuration());
+
+                medicineTable.addCell(item.getInstruction());
+
+            }
+
+            document.add(medicineTable);
+
+            Paragraph testTitle = new Paragraph("LABORATORY INVESTIGATIONS", titleFont);
+
+            testTitle.setSpacingBefore(10);
+
+            testTitle.setSpacingAfter(8);
+
+            document.add(testTitle);
+
+            PdfPTable testTable = new PdfPTable(4);
+
+            testTable.setWidthPercentage(100);
+
+            testTable.setWidths(new float[]{2f,5f,2f,3f});
+
+            String[] testHeader = {
+
+                    "Code",
+
+                    "Test Name",
+
+                    "Status",
+
+                    "Normal Range"
+
+            };
+
+            for(String h : testHeader){
+
+                PdfPCell cell = new PdfPCell(new Phrase(h, sectionFont));
+
+                cell.setBackgroundColor(new BaseColor(76,175,80));
+
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+                cell.setPadding(8);
+
+                testTable.addCell(cell);
+
+            }
+            List<Tests> tests =
+                    testsRepository.findByPrescriptionId(prescription.getId());
+
+            for(Tests t : tests){
+
+                testTable.addCell(t.getTestMaster().getTestCode());
+
+                testTable.addCell(t.getTestMaster().getTestName());
+
+                testTable.addCell(t.getOrderStatus());
+
+                testTable.addCell(t.getTestMaster().getNormalRange());
+
+            }
+
+            document.add(testTable);
+
+            Paragraph adviceTitle = new Paragraph("DOCTOR'S ADVICE", titleFont);
+
+            adviceTitle.setSpacingBefore(15);
+
+            document.add(adviceTitle);
+
+            PdfPTable adviceTable = new PdfPTable(1);
+
+            adviceTable.setWidthPercentage(100);
+
+            PdfPCell adviceCell = new PdfPCell();
+
+            adviceCell.setPadding(12);
+
+            adviceCell.setBackgroundColor(new BaseColor(240,255,240));
+
+            adviceCell.addElement(
+
+                    new Paragraph(
+
+                            prescription.getNotes()==null ? "" : prescription.getNotes(),
+
+                            valueFont
+
+                    )
+
+            );
+
+            adviceTable.addCell(adviceCell);
+
+            document.add(adviceTable);
+
+            Paragraph followTitle = new Paragraph("NEXT FOLLOW-UP", titleFont);
+
+            followTitle.setSpacingBefore(15);
+
+            document.add(followTitle);
+
+            PdfPTable followTable = new PdfPTable(1);
+
+            followTable.setWidthPercentage(40);
+
+            PdfPCell followCell = new PdfPCell();
+
+            followCell.setPadding(12);
+
+            followCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+            followCell.setBackgroundColor(new BaseColor(255,245,230));
+
+            String followDate = "Not Scheduled";
+
+            if(prescription.getNextFollowUpDate()!=null){
+
+                followDate = prescription.getNextFollowUpDate()
+
+                        .format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+
+            }
+
+            Paragraph follow = new Paragraph(
+
+                    followDate,
+
+                    new Font(Font.FontFamily.HELVETICA,14,Font.BOLD,BaseColor.RED)
+
+            );
+
+            follow.setAlignment(Element.ALIGN_CENTER);
+
+            followCell.addElement(follow);
+
+            followTable.addCell(followCell);
+
+            document.add(followTable);
     }
 
 
