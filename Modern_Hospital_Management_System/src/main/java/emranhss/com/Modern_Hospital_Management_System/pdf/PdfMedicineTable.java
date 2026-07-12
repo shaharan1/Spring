@@ -8,92 +8,179 @@ import emranhss.com.Modern_Hospital_Management_System.entity.PrescriptionItem;
 public class PdfMedicineTable {
 
     /**
-     * ==========================================
+     * =====================================================
      * Medicine Table
-     * ==========================================
+     * =====================================================
      */
     public static void add(
+
             Document document,
+
             Prescription prescription
+
     ) throws Exception {
 
+        //--------------------------------------------------
+        // Title
+        //--------------------------------------------------
+
         Paragraph title = new Paragraph(
+
                 "PRESCRIBED MEDICINES",
+
                 PdfStyle.TITLE_FONT
+
         );
 
-        title.setSpacingBefore(10);
-        title.setSpacingAfter(8);
+        title.setSpacingBefore(15);
+        title.setSpacingAfter(10);
 
         document.add(title);
 
-        PdfPTable table = new PdfPTable(5);
+        //--------------------------------------------------
+        // Table
+        //--------------------------------------------------
+
+        PdfPTable table = new PdfPTable(6);
 
         table.setWidthPercentage(100);
 
-        table.setWidths(new float[]{1, 4, 2, 2, 3});
+        table.setWidths(new float[]{0.8f,4f,2f,2f,2f,3f});
 
-        String[] headers = {
+        //--------------------------------------------------
+        // Header
+        //--------------------------------------------------
 
-                "#",
-                "Medicine",
-                "Dose",
-                "Duration",
-                "Instruction"
+        addHeader(table,"SL");
+        addHeader(table,"Medicine");
+        addHeader(table,"Type");
+        addHeader(table,"Dose");
+        addHeader(table,"Duration");
+        addHeader(table,"Instruction");
 
-        };
+        //--------------------------------------------------
+        // Data
+        //--------------------------------------------------
 
-        for (String h : headers) {
+        int sl = 1;
 
-            PdfPCell cell =
-                    new PdfPCell(
-                            new Phrase(
-                                    h,
-                                    PdfStyle.SECTION_FONT
-                            )
-                    );
+        boolean alternate = false;
 
-            cell.setBackgroundColor(PdfStyle.GREEN);
+        for(PrescriptionItem item : prescription.getPrescriptionItems()){
 
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            BaseColor rowColor =
+                    alternate ?
+                            new BaseColor(250,250,250)
+                            :
+                            BaseColor.WHITE;
 
-            cell.setPadding(8);
+            addValue(table,String.valueOf(sl++),rowColor);
 
-            table.addCell(cell);
-
-        }
-
-        int serial = 1;
-
-        for (PrescriptionItem item : prescription.getPrescriptionItems()) {
-
-            table.addCell(String.valueOf(serial++));
-
-            table.addCell(
-                    item.getMedicine().getMedicineName()
+            addValue(
+                    table,
+                    item.getMedicine().getMedicineName(),
+                    rowColor
             );
 
-            table.addCell(
-                    item.getDosage() == null
-                            ? "-"
-                            : item.getDosage()
+            addValue(
+                    table,
+                    item.getMedicineType()==null ?
+                            "-" :
+                            item.getMedicineType(),
+                    rowColor
             );
 
-            table.addCell(
-                    item.getDuration() == null
-                            ? "-"
-                            : item.getDuration()
+            addValue(
+                    table,
+                    item.getDosage(),
+                    rowColor
             );
 
-            table.addCell(
-                    item.getInstruction() == null
-                            ? "-"
-                            : item.getInstruction()
+            addValue(
+                    table,
+                    item.getDuration(),
+                    rowColor
             );
+
+            addValue(
+                    table,
+                    item.getInstruction(),
+                    rowColor
+            );
+
+            alternate = !alternate;
 
         }
 
         document.add(table);
+
+    }
+
+    /**
+     * =====================================================
+     * Header Cell
+     * =====================================================
+     */
+
+    private static void addHeader(
+
+            PdfPTable table,
+
+            String text
+
+    ){
+
+        PdfPCell cell =
+                new PdfPCell(
+                        new Phrase(
+                                text,
+                                PdfStyle.SECTION_FONT
+                        )
+                );
+
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+        cell.setBackgroundColor(
+                new BaseColor(33,150,243)
+        );
+
+        cell.setPadding(8);
+
+        table.addCell(cell);
+
+    }
+
+    /**
+     * =====================================================
+     * Value Cell
+     * =====================================================
+     */
+
+    private static void addValue(
+
+            PdfPTable table,
+
+            String value,
+
+            BaseColor color
+
+    ){
+
+        PdfPCell cell =
+                new PdfPCell(
+                        new Phrase(
+                                value==null?"":value,
+                                PdfStyle.VALUE_FONT
+                        )
+                );
+
+        cell.setBackgroundColor(color);
+
+        cell.setPadding(8);
+
+        table.addCell(cell);
 
     }
 

@@ -89,7 +89,7 @@ public class PdfPatientSection {
         table.addCell(labelCell("Age"));
 
         table.addCell(valueCell(
-                prescription.getPatient().getAge()+" Years"
+                prescription.getPatient().getDateOfBirth()+" Years"
         ));
 
         table.addCell(labelCell("Visit Date"));

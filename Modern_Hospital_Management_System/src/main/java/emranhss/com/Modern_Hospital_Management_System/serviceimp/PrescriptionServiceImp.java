@@ -8,6 +8,7 @@ import emranhss.com.Modern_Hospital_Management_System.dto.request.PrescriptionRe
 import emranhss.com.Modern_Hospital_Management_System.dto.response.PrescriptionResponse;
 import emranhss.com.Modern_Hospital_Management_System.entity.*;
 import emranhss.com.Modern_Hospital_Management_System.exception.ResourceNotFoundException;
+import emranhss.com.Modern_Hospital_Management_System.pdf.*;
 import emranhss.com.Modern_Hospital_Management_System.repository.*;
 import emranhss.com.Modern_Hospital_Management_System.service.PrescriptionService;
 import jakarta.transaction.Transactional;
@@ -126,20 +127,143 @@ public class PrescriptionServiceImp implements PrescriptionService {
     }
 
 
-
-
     @Override
     public byte[] generatePdf(Long id) {
+
+        // =====================================================
+        // Get Prescription
+        // =====================================================
 
         Prescription prescription =
                 prescriptionRepository.findById(id)
                         .orElseThrow(() ->
                                 new ResourceNotFoundException("Prescription not found"));
 
-        List<Tests> tests =
-                testsRepository.findByPrescriptionId(id);
+        try {
 
-        return PrescriptionPdfGenerator.generate(prescription, tests);
+            // =====================================================
+            // PDF Initialization
+            // =====================================================
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            Document document = new Document(
+                    PageSize.A4,
+                    25,
+                    25,
+                    25,
+                    25
+            );
+
+            PdfWriter.getInstance(document, out);
+
+            document.open();
+
+            // =====================================================
+            // Load Tests
+            // =====================================================
+
+            List<Tests> tests =
+                    testsRepository.findByPrescriptionId(
+                            prescription.getId()
+                    );
+
+            // =====================================================
+            // Header
+            // =====================================================
+
+            PdfHeader.add(document);
+
+            // =====================================================
+            // Patient Section
+            // =====================================================
+
+            PdfPatientSection.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Doctor Section
+            // =====================================================
+
+            PdfDoctorSection.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Vital Section
+            // =====================================================
+
+            PdfVitalSection.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Diagnosis Section
+            // =====================================================
+
+            PdfDiagnosisSection.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Medicine Section
+            // =====================================================
+
+            PdfMedicineTable.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Test Section
+            // =====================================================
+
+            PdfTestTable.add(
+                    document,
+                    tests
+            );
+
+            // =====================================================
+            // Advice Section
+            // =====================================================
+
+            PdfAdviceSection.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Footer Section
+            // =====================================================
+
+            PdfFooter.add(
+                    document,
+                    prescription
+            );
+
+            // =====================================================
+            // Close Document
+            // =====================================================
+
+            document.close();
+
+            return out.toByteArray();
+
+        } catch (Exception e) {
+
+            throw new RuntimeException("PDF Generation Failed", e);
+
+        }
 
     }
+
 }
+
+
+
+
