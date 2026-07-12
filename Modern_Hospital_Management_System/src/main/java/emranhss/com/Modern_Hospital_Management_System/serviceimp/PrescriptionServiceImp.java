@@ -141,7 +141,7 @@ public class PrescriptionServiceImp implements PrescriptionService {
 
             Document document = new Document(PageSize.A4,25,25,25,25);
 
-            PdfWriter.getInstance(document,out);
+            PdfWriter writer = PdfWriter.getInstance(document, out);
 
             document.open();
 
@@ -160,17 +160,23 @@ public class PrescriptionServiceImp implements PrescriptionService {
             Font valueFont =
                     new Font(Font.FontFamily.HELVETICA,10);
 
-//            Image logo = Image.getInstance("src/main/resources/static/logo.png");
-//
-//            logo.scaleAbsolute(70,70);
+//            --------Logo-----
+            Image logo = Image.getInstance(
+                    "src/main/resources/static/images/logo/elite_care_hospital_Logo.png"
+            );
 
+            logo.scaleAbsolute(90, 90);
 
+//            ------Header Table------
             PdfPTable header = new PdfPTable(2);
 
             header.setWidthPercentage(100);
 
-            header.setWidths(new int[]{1,4});
+            header.setWidths(new float[]{1,4});
 
+            header.setSpacingAfter(15);
+
+//            -------Logo Cell----------
             PdfPCell logoCell = new PdfPCell();
 
             logoCell.setBorder(Rectangle.NO_BORDER);
@@ -179,46 +185,44 @@ public class PrescriptionServiceImp implements PrescriptionService {
 
             header.addCell(logoCell);
 
+
+
+
+//            ---------Hospital Info---------
+            Paragraph hospitalName = new Paragraph(
+                    "ELITE CARE HOSPITAL",
+                    hospitalFont
+            );
+
+            hospitalName.setAlignment(Element.ALIGN_LEFT);
+
+            Paragraph address = new Paragraph(
+                    "House #25, Road #12, Dhanmondi, Dhaka-1209",
+                    valueFont
+            );
+
+            Paragraph phone = new Paragraph(
+                    "Phone : +880 1711-123456",
+                    valueFont
+            );
+
+            Paragraph email = new Paragraph(
+                    "Email : info@elitecarehospital.com",
+                    valueFont
+            );
+
             PdfPCell infoCell = new PdfPCell();
 
             infoCell.setBorder(Rectangle.NO_BORDER);
 
-            Paragraph hospital =
-                    new Paragraph("MODERN HOSPITAL MANAGEMENT SYSTEM",hospitalFont);
-
-            hospital.setAlignment(Element.ALIGN_CENTER);
-
-            infoCell.addElement(hospital);
-
-            Paragraph address =
-                    new Paragraph(
-                            "Dhaka, Bangladesh\nPhone : 017XXXXXXXX\nEmail : info@hospital.com",
-                            valueFont);
-
-            address.setAlignment(Element.ALIGN_CENTER);
-
+            infoCell.addElement(hospitalName);
             infoCell.addElement(address);
+            infoCell.addElement(phone);
+            infoCell.addElement(email);
 
             header.addCell(infoCell);
 
             document.add(header);
-
-            LineSeparator ls = new LineSeparator();
-
-            ls.setLineColor(BaseColor.BLUE);
-
-            document.add(new Chunk(ls));
-
-            Paragraph title =
-                    new Paragraph("MEDICAL PRESCRIPTION",titleFont);
-
-            title.setAlignment(Element.ALIGN_CENTER);
-
-            title.setSpacingBefore(10);
-
-            title.setSpacingAfter(15);
-
-            document.add(title);
 
             PdfPTable infoTable = new PdfPTable(2);
 
@@ -561,7 +565,108 @@ public class PrescriptionServiceImp implements PrescriptionService {
 
             document.add(followTable);
     }
+//       ===========QR Code=========
+        BarcodeQRCode qr = new BarcodeQRCode(
+
+                "ELITE CARE HOSPITAL\n"
+                        + "Patient : " + prescription.getPatient().getName()
+                        + "\nDoctor : " + prescription.getDoctor().getUser().getName()
+                        + "\nPrescription : " + prescription.getId(),
+
+                120,
+                120,
+                null
+        );
+
+        Image qrImage = qr.getImage();
+
+        qrImage.scaleAbsolute(80,80);
 
 
+//        ===============Footer Table===============
+        PdfPTable footer = new PdfPTable(2);
 
+        footer.setWidthPercentage(100);
+
+        footer.setSpacingBefore(25);
+
+        footer.setWidths(new float[]{1,1});
+
+//        ============QR Cell============
+        PdfPCell qrCell = new PdfPCell();
+
+        qrCell.setBorder(Rectangle.NO_BORDER);
+
+        qrCell.addElement(new Paragraph("Scan Verification", labelFont));
+
+        qrCell.addElement(qrImage);
+
+        footer.addCell(qrCell);
+
+//    ===============Signature Cell=============
+        PdfPCell signCell = new PdfPCell();
+
+        signCell.setBorder(Rectangle.NO_BORDER);
+
+        Paragraph line = new Paragraph("__________________________");
+
+        line.setAlignment(Element.ALIGN_CENTER);
+
+        signCell.addElement(line);
+
+        Paragraph doctor = new Paragraph(
+
+                "Dr. " + prescription.getDoctor().getUser().getName(),
+
+                titleFont
+
+        );
+
+        doctor.setAlignment(Element.ALIGN_CENTER);
+
+        signCell.addElement(doctor);
+
+        Paragraph spec = new Paragraph(
+
+                prescription.getDoctor().getSpecialization(),
+
+                valueFont
+
+        );
+
+        spec.setAlignment(Element.ALIGN_CENTER);
+
+        signCell.addElement(spec);
+
+        footer.addCell(signCell);
+
+        document.add(footer);
+
+//        =============Footer Text============
+        Paragraph footerText = new Paragraph(
+
+                "ELITE CARE HOSPITAL\n"
+                        + "Caring for every moment...\n"
+                        + "Powered By Elite IT Institute",
+
+                valueFont
+
+        );
+
+        footerText.setAlignment(Element.ALIGN_CENTER);
+
+        footerText.setSpacingBefore(20);
+
+        document.add(footerText);
+
+
+        document.close();
+
+        return out.toByteArray();
+
+    } catch (Exception e) {
+
+        throw new RuntimeException(e);
+
+    }
 }
