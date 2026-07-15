@@ -8,90 +8,195 @@ import java.util.List;
 
 public class PdfTestTable {
 
-    /**
-     * ==========================================
-     * Laboratory Investigation
-     * ==========================================
-     */
     public static void add(
+
             Document document,
+
             List<Tests> tests
+
     ) throws Exception {
 
-        // যদি কোন Test না থাকে তাহলে কিছু দেখাবে না
-        if (tests == null || tests.isEmpty()) {
-            return;
-        }
+        //========================================
+        // Section Title
+        //========================================
 
         Paragraph title = new Paragraph(
+
                 "LABORATORY INVESTIGATIONS",
-                PdfStyle.TITLE_FONT
+
+                PdfStyle.SECTION_FONT
+
         );
 
-        title.setSpacingBefore(15);
-        title.setSpacingAfter(8);
+        title.setSpacingBefore(5);
+
+        title.setSpacingAfter(5);
 
         document.add(title);
+
+        //========================================
+        // If No Test
+        //========================================
+
+        if (tests == null || tests.isEmpty()) {
+
+            Paragraph noTest = new Paragraph(
+
+                    "No Investigation Advised",
+
+                    PdfStyle.VALUE_FONT
+
+            );
+
+            noTest.setSpacingAfter(10);
+
+            document.add(noTest);
+
+            return;
+
+        }
+
+        //========================================
+        // Table
+        //========================================
 
         PdfPTable table = new PdfPTable(4);
 
         table.setWidthPercentage(100);
 
-        table.setWidths(new float[]{2,5,2,3});
+        table.setWidths(new float[]{
 
-        String[] headers = {
+                2f,
 
-//                "Code",
+                5f,
 
-                "Test Name",
+                2f,
 
-                "Status"
+                3f
 
-//                "Normal Range"
+        });
 
-        };
+        //========================================
+        // Header
+        //========================================
 
-        for(String h : headers){
+        addHeader(table, "Code");
 
-            PdfPCell cell =
-                    new PdfPCell(
-                            new Phrase(
-                                    h,
-                                    PdfStyle.SECTION_FONT
-                            )
-                    );
+        addHeader(table, "Test Name");
 
-//            cell.setBackgroundColor();
+        addHeader(table, "Status");
 
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        addHeader(table, "Normal Range");
 
-            cell.setPadding(8);
+        //========================================
+        // Data
+        //========================================
 
-            table.addCell(cell);
+        for (Tests test : tests) {
 
-        }
+            addCell(
 
-        for(Tests t : tests){
+                    table,
 
-            table.addCell(
-                    t.getTestMaster().getTestCode()
+                    test.getTestMaster().getTestCode()
+
             );
 
-            table.addCell(
-                    t.getTestMaster().getTestName()
+            addCell(
+
+                    table,
+
+                    test.getTestMaster().getTestName()
+
             );
 
-            table.addCell(
-                    t.getOrderStatus()
+            addCell(
+
+                    table,
+
+                    test.getOrderStatus()
+
             );
 
-            table.addCell(
-                    t.getTestMaster().getNormalRange()
+            addCell(
+
+                    table,
+
+                    test.getTestMaster().getNormalRange()
+
             );
 
         }
 
         document.add(table);
+
+    }
+
+    //========================================
+    // Header Cell
+    //========================================
+
+    private static void addHeader(
+
+            PdfPTable table,
+
+            String text
+
+    ) {
+
+        PdfPCell cell = new PdfPCell(
+
+                new Phrase(
+
+                        text,
+
+                        PdfStyle.LABEL_FONT
+
+                )
+
+        );
+
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+        cell.setPadding(6);
+
+        table.addCell(cell);
+
+    }
+
+    //========================================
+    // Data Cell
+    //========================================
+
+    private static void addCell(
+
+            PdfPTable table,
+
+            String text
+
+    ) {
+
+        PdfPCell cell = new PdfPCell(
+
+                new Phrase(
+
+                        text == null ? "-" : text,
+
+                        PdfStyle.VALUE_FONT
+
+                )
+
+        );
+
+        cell.setPadding(5);
+
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+        table.addCell(cell);
 
     }
 

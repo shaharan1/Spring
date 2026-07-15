@@ -8,53 +8,54 @@ import java.time.format.DateTimeFormatter;
 
 public class PdfAdviceSection {
 
-    /**
-     * ==========================================
-     * Doctor Advice
-     * ==========================================
-     */
     public static void add(
+
             Document document,
+
             Prescription prescription
+
     ) throws Exception {
 
-        // ===========================
-        // Advice Title
-        // ===========================
+        PdfPTable table = new PdfPTable(1);
 
-        Paragraph title =
+        table.setWidthPercentage(100);
+
+        table.setSpacingBefore(5);
+
+        PdfPCell cell = new PdfPCell();
+
+        cell.setPadding(8);
+
+        //==========================
+        // Title
+        //==========================
+
+        Paragraph title = new Paragraph(
+
+                "DOCTOR'S ADVICE",
+
+                PdfStyle.SECTION_FONT
+
+        );
+
+        title.setSpacingAfter(5);
+
+        cell.addElement(title);
+
+        //==========================
+        // Notes
+        //==========================
+
+        String advice =
+                prescription.getNotes() == null
+                        ? "-"
+                        : prescription.getNotes();
+
+        cell.addElement(
+
                 new Paragraph(
-                        "DOCTOR'S ADVICE",
-                        PdfStyle.TITLE_FONT
-                );
 
-        title.setSpacingBefore(15);
-
-        document.add(title);
-
-        // ===========================
-        // Advice Box
-        // ===========================
-
-        PdfPTable adviceTable = new PdfPTable(1);
-
-        adviceTable.setWidthPercentage(100);
-
-        PdfPCell adviceCell = new PdfPCell();
-
-        adviceCell.setPadding(12);
-
-//        adviceCell.setBackgroundColor(
-//                PdfStyle.LIGHT_GREEN
-//        );
-
-        adviceCell.addElement(
-
-                new Paragraph(
-
-                        prescription.getNotes()==null
-                                ? "No Advice"
-                                : prescription.getNotes(),
+                        advice,
 
                         PdfStyle.VALUE_FONT
 
@@ -62,81 +63,35 @@ public class PdfAdviceSection {
 
         );
 
-        adviceTable.addCell(adviceCell);
+        cell.addElement(new Paragraph(" "));
 
-        document.add(adviceTable);
+        //==========================
+        // Follow Up
+        //==========================
 
-        // ===========================
-        // Follow Up Title
-        // ===========================
+        String followUp = "Not Scheduled";
 
-        Paragraph followTitle =
-                new Paragraph(
+        if (prescription.getNextFollowUpDate() != null) {
 
-                        "NEXT FOLLOW-UP",
-
-                        PdfStyle.TITLE_FONT
-
-                );
-
-        followTitle.setSpacingBefore(15);
-
-        document.add(followTitle);
-
-        // ===========================
-        // Follow Up Card
-        // ===========================
-
-        PdfPTable followTable =
-                new PdfPTable(1);
-
-        followTable.setWidthPercentage(40);
-
-        PdfPCell followCell =
-                new PdfPCell();
-
-        followCell.setPadding(12);
-
-        followCell.setHorizontalAlignment(
-                Element.ALIGN_CENTER
-        );
-
-//        followCell.setBackgroundColor(
-//                PdfStyle.LIGHT_ORANGE
-//        );
-
-        String date = "Not Scheduled";
-
-        if(prescription.getNextFollowUpDate()!=null){
-
-            date = prescription.getNextFollowUpDate()
-
-                    .format(
-
-                            DateTimeFormatter.ofPattern(
-                                    "dd MMM yyyy"
-                            )
-
-                    );
+            followUp = prescription
+                    .getNextFollowUpDate()
+                    .format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
 
         }
 
-        Paragraph follow =
-                new Paragraph(
+        Paragraph follow = new Paragraph(
 
-                        date,
+                "Next Follow-Up : " + followUp,
 
-                        PdfStyle.FOLLOWUP_FONT
+                PdfStyle.LABEL_FONT
 
-                );
+        );
 
-        follow.setAlignment(Element.ALIGN_CENTER);
+        cell.addElement(follow);
 
-        followCell.addElement(follow);
+        table.addCell(cell);
 
-        followTable.addCell(followCell);
-
-        document.add(followTable);
+        document.add(table);
 
     }
 
