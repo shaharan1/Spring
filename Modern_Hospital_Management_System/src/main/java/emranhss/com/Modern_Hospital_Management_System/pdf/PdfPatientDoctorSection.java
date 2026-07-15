@@ -4,6 +4,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import emranhss.com.Modern_Hospital_Management_System.entity.Prescription;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class PdfPatientDoctorSection {
@@ -42,8 +44,13 @@ public class PdfPatientDoctorSection {
                 "Name : " + prescription.getPatient().getName(),
                 PdfStyle.VALUE_FONT));
 
+        int age = Period.between(
+                prescription.getPatient().getDateOfBirth(),
+                LocalDate.now()
+        ).getYears();
+
         patientCell.addElement(new Paragraph(
-                "Age : " + prescription.getPatient().getDateOfBirth().getDayOfYear(),
+                "Age : " + age + " yrs",
                 PdfStyle.VALUE_FONT));
 
         patientCell.addElement(new Paragraph(

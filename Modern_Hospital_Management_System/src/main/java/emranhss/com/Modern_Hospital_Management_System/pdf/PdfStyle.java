@@ -74,6 +74,26 @@ public class PdfStyle {
 
             );
 
+
+    // =====================================================
+    // Section Banner (colored bar containing SECTION_FONT text)
+    // =====================================================
+
+    public static PdfPTable sectionBanner(String text) {
+        PdfPTable banner = new PdfPTable(1);
+        banner.setWidthPercentage(100);
+        banner.setSpacingBefore(8);
+        banner.setSpacingAfter(6);
+
+        PdfPCell cell = new PdfPCell(new Phrase(text, SECTION_FONT));
+        cell.setBackgroundColor(new BaseColor(25, 118, 210));
+        cell.setPadding(6);
+        cell.setBorder(Rectangle.NO_BORDER);
+        banner.addCell(cell);
+
+        return banner;
+    }
+
     // =====================================================
     // Colors
     // =====================================================

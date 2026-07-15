@@ -6,139 +6,165 @@ import emranhss.com.Modern_Hospital_Management_System.entity.Prescription;
 
 public class PdfFooter {
 
+    /**
+     * ======================================
+     * QR Code + Doctor Signature + Footer
+     * ======================================
+     */
     public static void add(
-
             Document document,
-
             Prescription prescription
-
     ) throws Exception {
 
-        //=========================================
+        // =============================
         // QR Code
-        //=========================================
+        // =============================
 
-        BarcodeQRCode qr = new BarcodeQRCode(
+        BarcodeQRCode qr =
+                new BarcodeQRCode(
 
-                "ELITE CARE HOSPITAL\n"
-                        + "Prescription ID : "
-                        + prescription.getId(),
+                        "ELITE CARE HOSPITAL\n"
+                                + "Prescription ID : "
+                                + prescription.getId()
 
-                100,
+                                + "\nPatient : "
+                                + prescription.getPatient().getName()
 
-                100,
+                                + "\nDoctor : "
+                                + prescription.getDoctor().getUser().getName(),
 
-                null
+                        120,
+                        120,
+                        null
 
-        );
+                );
 
         Image qrImage = qr.getImage();
 
-        qrImage.scaleAbsolute(65,65);
+        qrImage.scaleAbsolute(80,80);
 
-        //=========================================
+        // =============================
         // Footer Table
-        //=========================================
+        // =============================
 
-        PdfPTable table = new PdfPTable(2);
+        PdfPTable footer =
+                new PdfPTable(2);
 
-        table.setWidthPercentage(100);
+        footer.setWidthPercentage(100);
 
-        table.setWidths(new float[]{1f,2f});
+        footer.setSpacingBefore(30);
 
-        table.setSpacingBefore(15);
+        footer.setWidths(new float[]{1,1});
 
-        //=========================================
-        // Left Cell (QR)
-        //=========================================
+        // =============================
+        // QR Cell
+        // =============================
 
-        PdfPCell left = new PdfPCell();
+        PdfPCell qrCell =
+                new PdfPCell();
 
-        left.setBorder(Rectangle.NO_BORDER);
+        qrCell.setBorder(Rectangle.NO_BORDER);
 
-        left.addElement(
+        Paragraph verify =
+                new Paragraph(
+                        "SCAN TO VERIFY",
+                        PdfStyle.TITLE_FONT
+                );
 
+        verify.setAlignment(Element.ALIGN_CENTER);
+
+        qrCell.addElement(verify);
+
+        qrImage.setAlignment(Image.ALIGN_CENTER);
+
+        qrCell.addElement(qrImage);
+
+        footer.addCell(qrCell);
+
+        // =============================
+        // Doctor Signature
+        // =============================
+
+        PdfPCell signCell =
+                new PdfPCell();
+
+        signCell.setBorder(Rectangle.NO_BORDER);
+
+        Paragraph line =
+                new Paragraph(
+                        "____________________________"
+                );
+
+        line.setAlignment(Element.ALIGN_CENTER);
+
+        signCell.addElement(line);
+
+        Paragraph doctor =
                 new Paragraph(
 
-                        "Scan Verification",
+                        "Dr. "
+                                + prescription.getDoctor().getUser().getName(),
 
-                        PdfStyle.LABEL_FONT
+                        PdfStyle.TITLE_FONT
 
-                )
-
-        );
-
-        left.addElement(qrImage);
-
-        table.addCell(left);
-
-        //=========================================
-        // Right Cell (Doctor)
-        //=========================================
-
-        PdfPCell right = new PdfPCell();
-
-        right.setBorder(Rectangle.NO_BORDER);
-
-        right.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-        Paragraph sign = new Paragraph(
-
-                "__________________________"
-
-        );
-
-        sign.setAlignment(Element.ALIGN_CENTER);
-
-        right.addElement(sign);
-
-        Paragraph doctor = new Paragraph(
-
-                "Dr. "
-                        + prescription.getDoctor().getUser().getName(),
-
-                PdfStyle.LABEL_FONT
-
-        );
+                );
 
         doctor.setAlignment(Element.ALIGN_CENTER);
 
-        right.addElement(doctor);
+        signCell.addElement(doctor);
 
-        Paragraph specialist = new Paragraph(
+        Paragraph specialization =
+                new Paragraph(
 
-                prescription.getDoctor().getSpecialization(),
+                        prescription.getDoctor().getSpecialization(),
 
-                PdfStyle.VALUE_FONT
+                        PdfStyle.VALUE_FONT
 
-        );
+                );
 
-        specialist.setAlignment(Element.ALIGN_CENTER);
+        specialization.setAlignment(Element.ALIGN_CENTER);
 
-        right.addElement(specialist);
+        signCell.addElement(specialization);
 
-        table.addCell(right);
+        Paragraph hospital =
+                new Paragraph(
 
-        document.add(table);
+                        "ELITE CARE HOSPITAL",
 
-        //=========================================
-        // Footer Text
-        //=========================================
+                        PdfStyle.VALUE_FONT
 
-        Paragraph footer = new Paragraph(
+                );
 
-                "ELITE CARE HOSPITAL\n"
-                        + "Caring Beyond Treatment",
+        hospital.setAlignment(Element.ALIGN_CENTER);
 
-                PdfStyle.VALUE_FONT
+        signCell.addElement(hospital);
 
-        );
-
-        footer.setAlignment(Element.ALIGN_CENTER);
-
-        footer.setSpacingBefore(10);
+        footer.addCell(signCell);
 
         document.add(footer);
+
+        // =============================
+        // Footer Text
+        // =============================
+
+        Paragraph footerText =
+                new Paragraph(
+
+                        "\nELITE CARE HOSPITAL\n"
+                                + "House #25, Road #12, Dhanmondi, Dhaka\n"
+                                + "Phone : +8801711123456\n"
+                                + "Email : info@elitecarehospital.com\n\n"
+                                + "Thank you for choosing ELITE CARE HOSPITAL.\n"
+                                + "Get Well Soon.\n\n"
+                                + "Powered By Elite IT Institute",
+
+                        PdfStyle.VALUE_FONT
+
+                );
+
+        footerText.setAlignment(Element.ALIGN_CENTER);
+
+        document.add(footerText);
 
     }
 
