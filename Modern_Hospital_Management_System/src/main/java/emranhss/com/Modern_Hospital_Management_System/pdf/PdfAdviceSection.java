@@ -44,9 +44,9 @@ public class PdfAdviceSection {
 
         adviceCell.setPadding(12);
 
-        adviceCell.setBackgroundColor(
-                PdfStyle.LIGHT_GREEN
-        );
+//        adviceCell.setBackgroundColor(
+//                PdfStyle.LIGHT_GREEN
+//        );
 
         adviceCell.addElement(
 
@@ -101,9 +101,9 @@ public class PdfAdviceSection {
                 Element.ALIGN_CENTER
         );
 
-        followCell.setBackgroundColor(
-                PdfStyle.LIGHT_ORANGE
-        );
+//        followCell.setBackgroundColor(
+//                PdfStyle.LIGHT_ORANGE
+//        );
 
         String date = "Not Scheduled";
 

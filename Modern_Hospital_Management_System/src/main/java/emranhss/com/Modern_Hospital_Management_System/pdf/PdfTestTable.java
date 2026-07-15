@@ -41,13 +41,13 @@ public class PdfTestTable {
 
         String[] headers = {
 
-                "Code",
+//                "Code",
 
                 "Test Name",
 
-                "Status",
+                "Status"
 
-                "Normal Range"
+//                "Normal Range"
 
         };
 
@@ -61,7 +61,7 @@ public class PdfTestTable {
                             )
                     );
 
-            cell.setBackgroundColor(PdfStyle.GREEN);
+//            cell.setBackgroundColor();
 
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 

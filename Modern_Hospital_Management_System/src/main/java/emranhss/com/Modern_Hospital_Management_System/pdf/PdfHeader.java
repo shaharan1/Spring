@@ -30,9 +30,9 @@ public class PdfHeader {
 
         header.setWidthPercentage(100);
 
-        header.setWidths(new float[]{1.3f, 5f, 1.5f});
+        header.setWidths(new float[]{1.2f, 5f, 1.6f});
 
-        header.setSpacingAfter(15);
+        header.setSpacingAfter(10);
 
         // =====================================================
         // Logo Cell
@@ -93,7 +93,7 @@ public class PdfHeader {
 
         infoCell.setBorder(Rectangle.NO_BORDER);
 
-        infoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        infoCell.setVerticalAlignment(Element.ALIGN_LEFT);
 
         infoCell.addElement(hospital);
 
@@ -119,7 +119,7 @@ public class PdfHeader {
 
         doctorPhotoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-        doctorPhotoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        doctorPhotoCell.addElement(doctorPhotoCell);
 
         doctorPhotoCell.addElement(
                 new Paragraph(
