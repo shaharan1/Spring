@@ -2,164 +2,137 @@ package emranhss.com.Modern_Hospital_Management_System.pdf;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-import emranhss.com.Modern_Hospital_Management_System.entity.Doctor;
 import emranhss.com.Modern_Hospital_Management_System.entity.Prescription;
 
 public class PdfDoctorSection {
 
-    /**
-     * =====================================================
-     * Doctor Information Section
-     * =====================================================
-     */
     public static void add(
             Document document,
             Prescription prescription
     ) throws Exception {
 
-        Doctor doctor = prescription.getDoctor();
+        PdfPTable table = new PdfPTable(1);
+
+        table.setWidthPercentage(100);
+
+        table.setSpacingAfter(10);
+
+        PdfPCell cell = new PdfPCell();
+
+        cell.setPadding(8);
+
+        //==============================
+        // Doctor Title
+        //==============================
 
         Paragraph title = new Paragraph(
                 "DOCTOR INFORMATION",
-                PdfStyle.TITLE_FONT
+                PdfStyle.SECTION_FONT
         );
 
-        title.setSpacingBefore(10);
-        title.setSpacingAfter(10);
+        cell.addElement(title);
 
-        document.add(title);
+        //==============================
+        // Doctor Name
+        //==============================
 
-        PdfPTable table = new PdfPTable(4);
+        cell.addElement(
 
-        table.setWidthPercentage(100);
-        table.setWidths(new float[]{2f, 3f, 2f, 3f});
-        table.setSpacingAfter(15);
+                new Paragraph(
 
-        //--------------------------------------------------
-        // Row-1
-        //--------------------------------------------------
+                        "Dr. " +
+                                prescription.getDoctor().getUser().getName(),
 
-        table.addCell(labelCell("Doctor"));
+                        PdfStyle.VALUE_FONT
 
-        table.addCell(valueCell(
-                "Dr. " + doctor.getUser().getName()
-        ));
+                )
 
-        table.addCell(labelCell("Specialization"));
+        );
 
-        table.addCell(valueCell(
-                doctor.getSpecialization()
-        ));
+        //==============================
+        // Specialization
+        //==============================
 
-        //--------------------------------------------------
-        // Row-2
-        //--------------------------------------------------
+        cell.addElement(
 
-        table.addCell(labelCell("Qualification"));
+                new Paragraph(
 
-        table.addCell(valueCell(
-                doctor.getStudy()
-        ));
+                        "Specialization : "
+                                + prescription.getDoctor().getSpecialization(),
 
-        table.addCell(labelCell("BMDC No"));
+                        PdfStyle.VALUE_FONT
 
-        table.addCell(valueCell(
-                doctor.getRegistrationNumber()
-        ));
+                )
 
-        //--------------------------------------------------
-        // Row-3
-        //--------------------------------------------------
+        );
 
-        table.addCell(labelCell("Consultation Fee"));
+        //==============================
+        // Qualification
+        //==============================
 
-        table.addCell(valueCell(
-                "Tk. " + doctor.getConsultationFee()
-        ));
+        if (prescription.getDoctor().getDoctorDepartment() != null) {
 
-        table.addCell(labelCell("Chamber"));
+            cell.addElement(
 
-        table.addCell(valueCell(
-                doctor.getChamber()
-        ));
+                    new Paragraph(
 
-        //--------------------------------------------------
-        // Row-4
-        //--------------------------------------------------
+                            "Qualification : "
+                                    + prescription.getDoctor().getDoctorDepartment(),
 
-        table.addCell(labelCell("Phone"));
+                            PdfStyle.VALUE_FONT
 
-        table.addCell(valueCell(
-                doctor.getUser().getPhone()
-        ));
+                    )
 
-        table.addCell(labelCell("Status"));
-
-        table.addCell(valueCell(
-                doctor.getStatus()
-        ));
-
-        document.add(table);
-
-        //--------------------------------------------------
-        // Doctor Photo (Optional)
-        //--------------------------------------------------
-
-        if (doctor.getPhoto() != null && !doctor.getPhoto().isEmpty()) {
-
-            try {
-
-                Image photo = Image.getInstance(
-                        "src/main/resources/static/" + doctor.getPhoto()
-                );
-
-                photo.scaleAbsolute(90, 90);
-
-                photo.setAlignment(Image.ALIGN_RIGHT);
-
-                document.add(photo);
-
-            } catch (Exception e) {
-
-                // যদি ছবি না পাওয়া যায় তাহলে PDF বন্ধ হবে না
-                System.out.println("Doctor photo not found.");
-
-            }
+            );
 
         }
 
-    }
+        //==============================
+        // BMDC Registration
+        //==============================
 
-    //======================================================
-    // Label Cell
-    //======================================================
+        if (prescription.getDoctor().getRegistrationNumber() != null) {
 
-    private static PdfPCell labelCell(String text) {
+            cell.addElement(
 
-        PdfPCell cell = new PdfPCell(
-                new Phrase(text, PdfStyle.LABEL_FONT)
-        );
+                    new Paragraph(
 
-        cell.setPadding(8);
+                            "BMDC No : "
+                                    + prescription.getDoctor().getRegistrationNumber(),
 
-        cell.setBackgroundColor(new BaseColor(235, 245, 255));
+                            PdfStyle.VALUE_FONT
 
-        return cell;
-    }
+                    )
 
-    //======================================================
-    // Value Cell
-    //======================================================
+            );
 
-    private static PdfPCell valueCell(String text) {
+        }
 
-        PdfPCell cell = new PdfPCell(
-                new Phrase(text == null ? "" : text, PdfStyle.VALUE_FONT)
-        );
+        //==============================
+        // Mobile
+        //==============================
 
-        cell.setPadding(8);
+        if (prescription.getDoctor().getUser().getPhone() != null) {
 
-        return cell;
+            cell.addElement(
+
+                    new Paragraph(
+
+                            "Mobile : "
+                                    + prescription.getDoctor().getUser().getPhone(),
+
+                            PdfStyle.VALUE_FONT
+
+                    )
+
+            );
+
+        }
+
+        table.addCell(cell);
+
+        document.add(table);
+
     }
 
 }

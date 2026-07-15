@@ -2,157 +2,110 @@ package emranhss.com.Modern_Hospital_Management_System.pdf;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
-
 import emranhss.com.Modern_Hospital_Management_System.entity.Prescription;
 
 import java.time.format.DateTimeFormatter;
 
 public class PdfPatientSection {
 
-    /**
-     * =====================================================
-     * Patient Information Section
-     * =====================================================
-     */
     public static void add(
-
             Document document,
-
             Prescription prescription
-
     ) throws Exception {
 
-        //==================================================
-        // Section Title
-        //==================================================
-
-        Paragraph title =
-                new Paragraph(
-                        "PATIENT INFORMATION",
-                        PdfStyle.TITLE_FONT
-                );
-
-        title.setSpacingAfter(10);
-
-        document.add(title);
-
-        //==================================================
-        // Table
-        //==================================================
-
-        PdfPTable table = new PdfPTable(4);
+        PdfPTable table = new PdfPTable(2);
 
         table.setWidthPercentage(100);
 
-        table.setWidths(new float[]{2f,3f,2f,3f});
+        table.setSpacingAfter(12);
 
-        table.setSpacingAfter(15);
+        table.setWidths(new float[]{1,1});
 
-        //==================================================
-        // Row-1
-        //==================================================
+        //==========================
+        // Patient Information
+        //==========================
 
-        table.addCell(labelCell("Patient Name"));
+        PdfPCell patientCell = new PdfPCell();
 
-        table.addCell(valueCell(
-                prescription.getPatient().getName()
-        ));
+        patientCell.setPadding(8);
 
-        table.addCell(labelCell("Gender"));
-
-        table.addCell(valueCell(
-                String.valueOf(
-                        prescription.getPatient().getGender()
+        patientCell.addElement(
+                new Paragraph(
+                        "PATIENT INFORMATION",
+                        PdfStyle.SECTION_FONT
                 )
-        ));
-
-        //==================================================
-        // Row-2
-        //==================================================
-
-        table.addCell(labelCell("Phone"));
-
-        table.addCell(valueCell(
-                prescription.getPatient().getPhone()
-        ));
-
-        table.addCell(labelCell("Blood Group"));
-
-        table.addCell(valueCell(
-                prescription.getPatient().getBloodGroup()
-        ));
-
-        //==================================================
-        // Row-3
-        //==================================================
-
-        table.addCell(labelCell("Age"));
-
-        table.addCell(valueCell(
-                prescription.getPatient().getDateOfBirth()+" Years"
-        ));
-
-        table.addCell(labelCell("Visit Date"));
-
-        table.addCell(valueCell(
-
-                prescription.getCreatedDate()
-
-                        .format(
-                                DateTimeFormatter.ofPattern("dd MMM yyyy")
-                        )
-
-        ));
-
-        document.add(table);
-
-    }
-
-    /**
-     * =====================================================
-     * Label Cell
-     * =====================================================
-     */
-
-    private static PdfPCell labelCell(String text){
-
-        PdfPCell cell =
-                new PdfPCell(
-                        new Phrase(
-                                text,
-                                PdfStyle.LABEL_FONT
-                        )
-                );
-
-        cell.setPadding(8);
-
-        cell.setBackgroundColor(
-                new BaseColor(235,245,255)
         );
 
-        return cell;
+        patientCell.addElement(new Paragraph(
+                "Name : " +
+                        prescription.getPatient().getName(),
+                PdfStyle.VALUE_FONT
+        ));
 
-    }
+        patientCell.addElement(new Paragraph(
+                "Age : " +
+                        prescription.getPatient().getDateOfBirth(),
+                PdfStyle.VALUE_FONT
+        ));
 
-    /**
-     * =====================================================
-     * Value Cell
-     * =====================================================
-     */
+        patientCell.addElement(new Paragraph(
+                "Gender : " +
+                        prescription.getPatient().getGender(),
+                PdfStyle.VALUE_FONT
+        ));
 
-    private static PdfPCell valueCell(String text){
+        patientCell.addElement(new Paragraph(
+                "Phone : " +
+                        prescription.getPatient().getPhone(),
+                PdfStyle.VALUE_FONT
+        ));
 
-        PdfPCell cell =
-                new PdfPCell(
-                        new Phrase(
-                                text==null?"":text,
-                                PdfStyle.VALUE_FONT
-                        )
-                );
+        patientCell.addElement(new Paragraph(
+                "Blood Group : " +
+                        prescription.getPatient().getBloodGroup(),
+                PdfStyle.VALUE_FONT
+        ));
 
-        cell.setPadding(8);
+        table.addCell(patientCell);
 
-        return cell;
+        //==========================
+        // Visit Information
+        //==========================
+
+        PdfPCell visitCell = new PdfPCell();
+
+        visitCell.setPadding(8);
+
+        visitCell.addElement(
+                new Paragraph(
+                        "VISIT INFORMATION",
+                        PdfStyle.SECTION_FONT
+                )
+        );
+
+        visitCell.addElement(new Paragraph(
+                "Prescription No : RX-" +
+                        prescription.getId(),
+                PdfStyle.VALUE_FONT
+        ));
+
+        visitCell.addElement(new Paragraph(
+                "Appointment : " +
+                        prescription.getAppointment().getAppointmentNumber(),
+                PdfStyle.VALUE_FONT
+        ));
+
+        visitCell.addElement(new Paragraph(
+                "Date : " +
+                        prescription.getCreatedDate().format(
+                                DateTimeFormatter.ofPattern("dd MMM yyyy")
+                        ),
+                PdfStyle.VALUE_FONT
+        ));
+
+        table.addCell(visitCell);
+
+        document.add(table);
 
     }
 
