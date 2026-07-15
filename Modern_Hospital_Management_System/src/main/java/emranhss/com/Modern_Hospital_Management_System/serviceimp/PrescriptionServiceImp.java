@@ -175,21 +175,15 @@ public class PrescriptionServiceImp implements PrescriptionService {
             PdfHeader.add(document);
 
             // =====================================================
-            // Patient Section
+            // Patient & Doctor Section
             // =====================================================
 
-            PdfPatientSection.add(
-                    document,
-                    prescription
-            );
 
-            // =====================================================
-            // Doctor Section
-            // =====================================================
 
-            PdfDoctorSection.add(
-                    document,
-                    prescription
+            PdfPatientDoctorSection.add(
+                    
+                    document, prescription
+
             );
 
             // =====================================================
