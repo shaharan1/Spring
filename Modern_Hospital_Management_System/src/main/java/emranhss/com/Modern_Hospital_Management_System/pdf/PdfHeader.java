@@ -13,7 +13,7 @@ public class PdfHeader {
         // Load Hospital Logo (from classpath, not a relative file path)
         // =====================================================
 
-        Image logo = loadLogo();
+//        Image logo = loadLogo();
 
         // =====================================================
         // Header Table (3 Columns)
@@ -24,16 +24,16 @@ public class PdfHeader {
         header.setWidths(new float[]{1.2f, 5f, 1.6f});
         header.setSpacingAfter(10);
 
-        // Logo Cell
-        PdfPCell logoCell = new PdfPCell();
-        logoCell.setBorder(Rectangle.NO_BORDER);
-        logoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        logoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        if (logo != null) {
-            logo.scaleAbsolute(90, 90);
-            logoCell.addElement(logo);
-        }
-        header.addCell(logoCell);
+//        // Logo Cell
+//        PdfPCell logoCell = new PdfPCell();
+//        logoCell.setBorder(Rectangle.NO_BORDER);
+//        logoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+//        logoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+//        if (logo != null) {
+//            logo.scaleAbsolute(90, 90);
+//            logoCell.addElement(logo);
+//        }
+//        header.addCell(logoCell);
 
         // Hospital Information
         Paragraph hospital = new Paragraph("ELITE CARE HOSPITAL", PdfStyle.HOSPITAL_FONT);
@@ -82,19 +82,19 @@ public class PdfHeader {
 
         document.add(header);
     }
-
-    private static Image loadLogo() {
-        try {
-            // classpath resource: put file under src/main/resources/images/logo/...
-            InputStream is = PdfHeader.class.getResourceAsStream(
-                    "/images/logo/elite_care_hospital_Logo.png"
-            );
-            if (is == null) return null;
-            byte[] bytes = is.readAllBytes();
-            return Image.getInstance(bytes);
-        } catch (Exception e) {
-            // Don't let a missing logo kill the whole PDF
-            return null;
-        }
-    }
+//
+//    private static Image loadLogo() {
+//        try {
+//            // classpath resource: put file under src/main/resources/images/logo/...
+//            InputStream is = PdfHeader.class.getResourceAsStream(
+//                    "/images/logo/elite_care_hospital_Logo.png"
+//            );
+//            if (is == null) return null;
+//            byte[] bytes = is.readAllBytes();
+//            return Image.getInstance(bytes);
+//        } catch (Exception e) {
+//            // Don't let a missing logo kill the whole PDF
+//            return null;
+//        }
+//    }
 }
