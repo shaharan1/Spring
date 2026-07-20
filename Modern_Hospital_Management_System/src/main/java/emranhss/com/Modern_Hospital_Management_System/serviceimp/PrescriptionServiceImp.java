@@ -42,6 +42,17 @@ public class PrescriptionServiceImp implements PrescriptionService {
     @Transactional
     public PrescriptionResponse createPrescription(PrescriptionRequest request) {
 
+
+        System.out.println("AppointmentId = " + request.getAppointmentId());
+        System.out.println("DoctorId = " + request.getDoctorId());
+        System.out.println("PatientId = " + request.getPatientId());
+
+        request.getPrescriptionItems().forEach(item -> {
+            System.out.println("MedicineId = " + item.getMedicineId());
+        });
+
+        System.out.println("TestIds = " + request.getTestIds());
+
         Appointment appointment = appointmentRepository.findById(request.getAppointmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + request.getAppointmentId()));
 
