@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class AdmissionServiceImp implements AdmissionService {
     private final BedRepository bedRepository;
     private final BedBookingRepository bedBookingRepository;
     private final AdmissionMapper mapper;
+    private final AdmittedPatientRepository admissionRepository;
 
     @Override
     @Transactional
@@ -92,4 +94,29 @@ public class AdmissionServiceImp implements AdmissionService {
 
         return mapper.toResponse(updatedAdmission, activeBooking);
     }
+
+
+//    =============NEW=============
+
+
+    @Override
+    public List<AdmissionResponse> getAllAdmissions() {
+
+        return admissionRepository.findAll()
+                .stream()
+                .map(mapper::toResponse)
+                .toList();
+
+    }
+
+    @Override
+    public AdmissionResponse getAdmissionById(Long id) {
+
+        AdmittedPatient admission = admissionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Admission Not Found"));
+
+        return mapper.toResponse(admission);
+
+    }
+
 }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admissions")
 @CrossOrigin("*")
@@ -28,5 +30,23 @@ public class AdmissionController {
     public ResponseEntity<AdmissionResponse> dischargePatient(@PathVariable Long id) {
         return ResponseEntity.ok(admissionService.dischargePatient(id));
     }
+
+
+//    ==========NEW===========
+
+    @GetMapping
+    public ResponseEntity<List<AdmissionResponse>> getAllAdmissions() {
+
+        return ResponseEntity.ok(admissionService.getAllAdmissions());
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdmissionResponse> getAdmissionById(@PathVariable Long id) {
+        return ResponseEntity.ok(admissionService.getAdmissionById(id));
+    }
+
+
+
 
 }

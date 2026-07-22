@@ -9,34 +9,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdmissionMapper {
 
+    public AdmissionResponse toResponse(AdmittedPatient admission) {
 
+        AdmissionResponse response = new AdmissionResponse();
 
-    public AdmissionResponse toResponse(AdmittedPatient admittedPatient, BedBooking activeBooking) {
-        if (admittedPatient == null) return null;
+        response.setAdmissionId(admission.getId());
 
-        AdmissionResponse resp = new AdmissionResponse();
-        resp.setAdmissionId(admittedPatient.getId());
-        resp.setInitialDiagnosis(admittedPatient.getInitialDiagnosis());
-        resp.setAdmissionDate(admittedPatient.getAdmissionDate());
-        resp.setStatus(admittedPatient.getAdmissionStatus());
+        response.setAdmissionDate(admission.getAdmissionDate());
 
-        if (admittedPatient.getPatient() != null) {
-            resp.setPatientId(admittedPatient.getPatient().getId());
-            resp.setPatientCode(admittedPatient.getPatient().getPatientCode());
-            resp.setPatientName(admittedPatient.getPatient().getName() + " " + admittedPatient.getPatient());
+        response.setStatus(admission.getAdmissionStatus());
+
+        response.setInitialDiagnosis(admission.getInitialDiagnosis());
+
+        if (admission.getPatient() != null) {
+            response.setPatientId(admission.getPatient().getId());
+            response.setPatientName(admission.getPatient().getName());
+            response.setPatientCode(admission.getPatient().getPatientCode());
         }
 
-        if (admittedPatient.getPrimaryDoctor() != null) {
-            resp.setDoctorName(admittedPatient.getPrimaryDoctor().getUser().getName());
+        if (admission.getPrimaryDoctor() != null) {
+            response.setDoctorName(
+                    admission.getPrimaryDoctor().getUser().getName()
+            );
         }
 
-        if (activeBooking != null && activeBooking.getBed() != null) {
-            resp.setAssignedBedNumber(activeBooking.getBed().getBedNumber());
-            if (activeBooking.getBed().getWard() != null) {
-                resp.setWardName(activeBooking.getBed().getWard().getName());
-            }
-        }
-
-        return resp;
+        return response;
     }
 }
