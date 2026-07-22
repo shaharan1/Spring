@@ -104,7 +104,15 @@ public class AdmissionServiceImp implements AdmissionService {
 
         return admissionRepository.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(admission -> {
+
+                    BedBooking booking = bedBookingRepository
+                            .findByAdmittedPatientIdAndActiveTrue(admission.getId())
+                            .orElse(null);
+
+                    return mapper.toResponse(admission, booking);
+
+                })
                 .toList();
 
     }
@@ -115,7 +123,11 @@ public class AdmissionServiceImp implements AdmissionService {
         AdmittedPatient admission = admissionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Admission Not Found"));
 
-        return mapper.toResponse(admission);
+        BedBooking booking = bedBookingRepository
+                .findByAdmittedPatientIdAndActiveTrue(id)
+                .orElse(null);
+
+        return mapper.toResponse(admission, booking);
 
     }
 

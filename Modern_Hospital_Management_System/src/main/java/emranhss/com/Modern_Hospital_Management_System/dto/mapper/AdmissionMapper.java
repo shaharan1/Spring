@@ -14,11 +14,8 @@ public class AdmissionMapper {
         AdmissionResponse response = new AdmissionResponse();
 
         response.setAdmissionId(admission.getId());
-
         response.setAdmissionDate(admission.getAdmissionDate());
-
         response.setStatus(admission.getAdmissionStatus());
-
         response.setInitialDiagnosis(admission.getInitialDiagnosis());
 
         if (admission.getPatient() != null) {
@@ -28,9 +25,29 @@ public class AdmissionMapper {
         }
 
         if (admission.getPrimaryDoctor() != null) {
-            response.setDoctorName(
-                    admission.getPrimaryDoctor().getUser().getName()
+            response.setDoctorName(admission.getPrimaryDoctor().getUser().getName());
+        }
+
+        return response;
+    }
+
+    public AdmissionResponse toResponse(AdmittedPatient admission, BedBooking booking) {
+
+        AdmissionResponse response = toResponse(admission);
+
+        if (booking != null && booking.getBed() != null) {
+
+            response.setAssignedBedNumber(
+                    booking.getBed().getBedNumber()
             );
+
+            if (booking.getBed().getWard() != null) {
+
+                response.setWardName(
+                        booking.getBed().getWard().getName()
+                );
+
+            }
         }
 
         return response;
