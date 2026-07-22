@@ -103,4 +103,36 @@ public class InfrastructureServiceImp implements InfrastructureService {
         bed.setStatus(status);
         return mapper.toResponse(bedRepository.save(bed));
     }
+
+
+
+    @Override
+    public List<WardResponse> getAllWards() {
+
+        return wardRepository.findAll()
+                .stream()
+                .map(this::mapWardResponse)
+                .toList();
+
+    }
+
+    @Override
+    public List<BedResponse> getAllBeds() {
+
+        return bedRepository.findAll()
+                .stream()
+                .map(this::mapBedResponse)
+                .toList();
+
+    }
+
+    @Override
+    public List<BedResponse> getBedsByWard(Long wardId) {
+
+        return bedRepository.findByWardId(wardId)
+                .stream()
+                .map(this::mapBedResponse)
+                .toList();
+
+    }
 }

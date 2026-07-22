@@ -56,4 +56,12 @@ public class InfrastructureController {
     public ResponseEntity<BedResponse> updateBedStatus(@PathVariable Long id, @RequestParam BedStatus status) {
         return ResponseEntity.ok(infraService.updateBedStatus(id, status));
     }
+
+    @GetMapping("/wards")
+    public ResponseEntity<List<WardResponse>> getAllWards()
+
+
+    @GetMapping("/beds")
+    public ResponseEntity<List<BedResponse>> getAllBeds()
+
 }

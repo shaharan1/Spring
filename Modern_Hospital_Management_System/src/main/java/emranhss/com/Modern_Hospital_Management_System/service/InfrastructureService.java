@@ -21,4 +21,14 @@ public interface InfrastructureService {
     BedResponse createBed(BedRequest request);
     List<BedResponse> getBedsByStatus(BedStatus status);
     BedResponse updateBedStatus(Long id, BedStatus status);
+
+
+    // ================= NEW =================
+
+    List<WardResponse> getAllWards();
+
+    List<BedResponse> getAllBeds();
+
+    List<BedResponse> getBedsByWard(Long wardId);
+
 }
