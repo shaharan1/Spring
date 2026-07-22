@@ -57,11 +57,21 @@ public class InfrastructureController {
         return ResponseEntity.ok(infraService.updateBedStatus(id, status));
     }
 
-    @GetMapping("/wards")
-    public ResponseEntity<List<WardResponse>> getAllWards()
+//    -------------NEW-----------
 
+    @GetMapping("/wards")
+    public ResponseEntity<List<WardResponse>> getAllWards() {
+        return ResponseEntity.ok(infraService.getAllWards());
+    }
 
     @GetMapping("/beds")
-    public ResponseEntity<List<BedResponse>> getAllBeds()
+    public ResponseEntity<List<BedResponse>> getAllBeds() {
+        return ResponseEntity.ok(infraService.getAllBeds());
+    }
+
+    @GetMapping("/wards/{wardId}/beds")
+    public ResponseEntity<List<BedResponse>> getBedsByWard(@PathVariable Long wardId) {
+        return ResponseEntity.ok(infraService.getBedsByWard(wardId));
+    }
 
 }

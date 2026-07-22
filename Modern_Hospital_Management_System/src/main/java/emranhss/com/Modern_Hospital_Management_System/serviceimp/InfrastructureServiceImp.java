@@ -106,6 +106,65 @@ public class InfrastructureServiceImp implements InfrastructureService {
 
 
 
+//    -----------NEW----------
+
+    private WardResponse mapWardResponse(Ward ward) {
+
+        WardResponse response = new WardResponse();
+
+        response.setId(ward.getId());
+        response.setName(ward.getName());
+        response.setRoomType(ward.getRoomType());
+        response.setTotalBeds(ward.getTotalBeds());
+        response.setBasePricePerDay(ward.getBasePricePerDay());
+
+        if (ward.getDepartment() != null) {
+            response.setDepartmentId(ward.getDepartment().getId());
+            response.setDepartmentName(ward.getDepartment().getName());
+        }
+
+        return response;
+    }
+
+
+    private BedResponse mapBedResponse(Bed bed) {
+
+        BedResponse response = new BedResponse();
+
+        response.setId(bed.getId());
+        response.setBedNumber(bed.getBedNumber());
+        response.setStatus(bed.getStatus());
+
+        if (bed.getWard() != null) {
+
+            response.setWardId(bed.getWard().getId());
+            response.setWardName(bed.getWard().getName());
+            response.setRoomType(bed.getWard().getRoomType().name());
+
+            // বর্তমানে Ward-এর Base Price-ই Daily Cost হিসেবে পাঠানো হচ্ছে
+            response.setTotalDailyCost(bed.getWard().getBasePricePerDay());
+        }
+
+        // Facilities
+        double totalCost = 0.0;
+
+        if (bed.getWard() != null) {
+            totalCost += bed.getWard().getBasePricePerDay();
+        }
+
+        if (bed.getFacilities() != null) {
+            totalCost += bed.getFacilities()
+                    .stream()
+                    .mapToDouble(Facility::getStandardCharge)
+                    .sum();
+        }
+
+        response.setTotalDailyCost(totalCost);
+
+        return response;
+    }
+
+
     @Override
     public List<WardResponse> getAllWards() {
 
